@@ -1,0 +1,9 @@
+*.o
+.vscode
+doc/html
+wxtest
+doc/html
+callgrind.*
+.~lock.*
+*.csv
+*.dat

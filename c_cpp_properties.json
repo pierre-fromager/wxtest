@@ -1,0 +1,29 @@
+{
+    "configurations": [
+        {
+            "name": "Linux64",
+            "includePath": [
+                "/usr/lib/x86_64-linux-gnu/wx/include/gtk2-unicode-3.0",
+                "/usr/include/wx-3.0",
+                "${default}"
+            ],
+            "defines": [
+                "${default}"
+            ],
+            "compilerPath": "/usr/bin/g++",
+            "cStandard": "c99",
+            "cppStandard": "c++17",
+            "browse": {
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": "${default}",
+                "path": [
+                    "${default}",
+                    "/usr/lib/x86_64-linux-gnu/wx/include/gtk2-unicode-3.0",
+                    "/usr/include/wx-3.0"
+                ]
+            },
+            "intelliSenseMode": "${default}"
+        }
+    ],
+    "version": 4
+}
