@@ -2,9 +2,14 @@
 #ifndef APP_FRAME_H
 #define APP_FRAME_H
 
+#include <wx/wxprec.h>
+#ifndef WX_PRECOMP
 #include <wx/wx.h>
+#endif
+
 #include <wx/datetime.h>
 #include <wx/intl.h>
+#include <wx/listctrl.h>
 
 #define APP_FRAME_TITLE "WxQuickStarter"
 #define APP_FRAME_STATUS_WELCOME "Welcome !"
@@ -29,23 +34,35 @@ private:
     };
     enum
     {
-        ID_Hello = 1
+        ID_Hello = 1,
+        ID_Button = wxID_HIGHEST + 1
     };
-    wxMenu *m_menuFile = nullptr;
-    wxMenu *m_menuHelp = nullptr;
-    wxMenuBar *m_menuBar = nullptr;
-    wxTimer *m_timer = nullptr;
-    wxStaticText *m_clockDisplay = nullptr;
+    wxPanel *panel = nullptr;
+    wxGridSizer *grid = nullptr;
+    wxBoxSizer *vbox = nullptr;
+    wxButton *button = nullptr;
+    wxListCtrl *listview = nullptr;
+    wxMenu *menuFile = nullptr;
+    wxMenu *menuHelp = nullptr;
+    wxMenuBar *menuBar = nullptr;
+    wxTimer *timer = nullptr;
+    wxString timestamp = "        ";
+    int itemIndex = 0;
     void initMenus();
+    void initStatusBar();
+    void initPanel();
     void initMenuFile();
     void initMenuHelp();
-    void initClock();
+    void initButton();
+    void initGrid();
+    void initListview();
     void bindMenuEvents();
     void initTimer();
     void bindTimer();
-    void OnHello(wxCommandEvent &event);
+    void OnReset(wxCommandEvent &event);
     void OnExit(wxCommandEvent &event);
     void OnAbout(wxCommandEvent &event);
+    void OnPress(wxCommandEvent &event);
     void OnTimer(wxTimerEvent &evt);
 };
 
