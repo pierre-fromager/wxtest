@@ -11,6 +11,8 @@
 #include <wx/intl.h>
 #include <wx/listctrl.h>
 
+#include "sort.h"
+
 #define APP_FRAME_TITLE "WxQuickStarter"
 #define APP_FRAME_STATUS_WELCOME "Welcome !"
 #define APP_FRAME_STATUS_OVERHELP "Status bar help string for Hello item"
@@ -20,25 +22,6 @@
 #define APP_FRAME_ABOUT_MSGBOX_CONTENT "WQS - Wx Quick Starter\nv0.1"
 #define APP_FRAME_HELLO_LOGMSG "Hello my friend!"
 #define APP_FRAME_TIMER_DELTA 1000
-
-
-
-class SortInfoStruct
-{
-public:
-    enum class SortInfoType : int
-    {
-        string = 0,
-        integer = 1,
-        date = 2
-    };
-
-    SortInfoStruct();
-    int column = 0;
-    int type = 0;
-    bool direction = true;
-    wxListCtrl *listCtrl = nullptr;
-};
 
 class AppFrame : public wxFrame
 {
