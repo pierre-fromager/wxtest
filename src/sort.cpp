@@ -20,6 +20,8 @@ int wxCALLBACK SortInfoStruct::sortlist(
     wxString str1, str2;
     switch (SortInfo->type)
     {
+    case static_cast<int>(SortInfoStruct::SortInfoType::integer):
+        return 0;
     case static_cast<int>(SortInfoStruct::SortInfoType::date):
         dt1 = item.GetData();
         dt2 = item.GetData();

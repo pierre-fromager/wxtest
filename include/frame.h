@@ -7,6 +7,7 @@
 #include <wx/wx.h>
 #endif
 
+#include <wx/splitter.h>
 #include <wx/datetime.h>
 #include <wx/intl.h>
 #include <wx/listctrl.h>
@@ -32,6 +33,9 @@ private:
     enum class IDs : wxWindowID
     {
         MainWindow = 1000,
+        ID_RAD_BAD = 2000,
+        ID_RAD_MEDIUM = 2001,
+        ID_RAD_GOOD = 2002,
         Timer
     };
     enum
@@ -41,8 +45,12 @@ private:
         ID_Button = wxID_HIGHEST + 1
     };
     wxPanel *panel = nullptr;
-    wxGridSizer *grid = nullptr;
-    wxBoxSizer *vbox = nullptr;
+    wxPanel *ctrlpanel = nullptr;
+
+    wxBoxSizer *vboxLeft = nullptr;
+    wxBoxSizer *vboxBottom = nullptr;
+    wxBoxSizer *hboxRight = nullptr;
+
     wxButton *button = nullptr;
     wxListCtrl *listview = nullptr;
     wxMenu *menuFile = nullptr;
@@ -50,7 +58,16 @@ private:
     wxMenuBar *menuBar = nullptr;
     wxTimer *timer = nullptr;
     wxString timestamp = "        ";
-    int col0order = 0;
+
+    wxRadioButton *m_radioBtn1 = nullptr;
+    wxRadioButton *m_radioBtn2 = nullptr;
+    wxRadioButton *m_radioBtn3 = nullptr;
+
+    wxPanel *leftPanel = nullptr;
+    wxPanel *rightPanel = nullptr;
+    wxPanel *bottomPanel = nullptr;
+
+    int statusId = 0;
     int itemIndex = 0;
     void initMenus();
     void initStatusBar();
@@ -58,7 +75,7 @@ private:
     void initMenuFile();
     void initMenuHelp();
     void initButton();
-    void initGrid();
+    void initRadiosStatus();
     void initListview();
     void bindMenuEvents();
     void initTimer();
@@ -70,6 +87,7 @@ private:
     void OnTimer(wxTimerEvent &evt);
     void OnItemSelect(wxListEvent &event);
     void OnColSelect(wxListEvent &event);
+    void OnStatusChange(wxCommandEvent &event);
 };
 
 #endif
