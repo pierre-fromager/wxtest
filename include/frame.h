@@ -21,6 +21,25 @@
 #define APP_FRAME_HELLO_LOGMSG "Hello my friend!"
 #define APP_FRAME_TIMER_DELTA 1000
 
+
+
+class SortInfoStruct
+{
+public:
+    enum class SortInfoType : int
+    {
+        string = 0,
+        integer = 1,
+        date = 2
+    };
+
+    SortInfoStruct();
+    int column = 0;
+    int type = 0;
+    bool direction = true;
+    wxListCtrl *listCtrl = nullptr;
+};
+
 class AppFrame : public wxFrame
 {
 public:
@@ -35,6 +54,7 @@ private:
     enum
     {
         ID_Hello = 1,
+        ID_List = 100,
         ID_Button = wxID_HIGHEST + 1
     };
     wxPanel *panel = nullptr;
@@ -47,6 +67,7 @@ private:
     wxMenuBar *menuBar = nullptr;
     wxTimer *timer = nullptr;
     wxString timestamp = "        ";
+    int col0order = 0;
     int itemIndex = 0;
     void initMenus();
     void initStatusBar();
@@ -64,6 +85,8 @@ private:
     void OnAbout(wxCommandEvent &event);
     void OnPress(wxCommandEvent &event);
     void OnTimer(wxTimerEvent &evt);
+    void OnItemSelect(wxListEvent &event);
+    void OnColSelect(wxListEvent &event);
 };
 
 #endif

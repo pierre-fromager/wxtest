@@ -4,7 +4,9 @@ AppFrame::AppFrame(wxApp *app)
     : wxFrame(
           nullptr,
           static_cast<wxWindowID>(IDs::MainWindow),
-          wxString(app->GetAppDisplayName()))
+          wxString(app->GetAppDisplayName()),
+          wxDefaultPosition,
+          wxSize(480, 300))
 {
     app->SetAppDisplayName(APP_FRAME_TITLE);
     initMenus();
@@ -32,23 +34,88 @@ void AppFrame::initListview()
 {
     listview = new wxListCtrl(
         panel,
-        wxID_ANY,
+        ID_List,
         wxDefaultPosition,
         wxDefaultSize,
         wxLC_REPORT);
-    wxListItem col0, col1;
+    wxListItem col0, col1, col2;
     col0.SetId(0);
     col0.SetText(_("Index"));
     col0.SetWidth(
-        //wxLIST_AUTOSIZE
         wxLIST_AUTOSIZE_USEHEADER);
     listview->InsertColumn(0, col0);
+
     col1.SetId(1);
     col1.SetText(_("Timestamp"));
     col1.SetWidth(
-        //wxLIST_AUTOSIZE
         wxLIST_AUTOSIZE_USEHEADER);
     listview->InsertColumn(1, col1);
+
+    col2.SetId(2);
+    col2.SetText(_("Status"));
+    col2.SetWidth(
+        wxLIST_AUTOSIZE_USEHEADER);
+    listview->InsertColumn(2, col2);
+
+    Bind(wxEVT_COMMAND_LIST_COL_CLICK, &AppFrame::OnColSelect, this, ID_List);
+    Bind(wxEVT_COMMAND_LIST_ITEM_SELECTED, &AppFrame::OnItemSelect, this, ID_List);
+}
+
+int wxCALLBACK sort_listview_index(
+    wxIntPtr item1,
+    wxIntPtr item2,
+    wxIntPtr sortData)
+{
+    SortInfoStruct *SortInfo = (SortInfoStruct *)sortData;
+    wxListCtrl *sortList = SortInfo->listCtrl;
+    wxListItem item;
+    wxDateTime dt1, dt2;
+    wxString str1, str2;
+    switch (SortInfo->type)
+    {
+    case static_cast<int>(SortInfoStruct::SortInfoType::date):
+        dt1 = item.GetData();
+        dt2 = item.GetData();
+        return (SortInfo->direction && dt1.IsLaterThan(dt2)) ? -1 : 1;
+
+    case static_cast<int>(SortInfoStruct::SortInfoType::string):
+        item.SetId(item1);
+        item.SetColumn(SortInfo->column);
+        item.SetMask(wxLIST_MASK_TEXT);
+        sortList->GetItem(item);
+        str1 = item.GetText();
+        item2 = item1 + 1;
+        item.SetId(item2);
+        item.SetColumn(SortInfo->column);
+        item.SetMask(wxLIST_MASK_TEXT);
+        sortList->GetItem(item);
+        str2 = item.GetText();
+        return (SortInfo->direction && str1.CmpNoCase(str2) < 0) ? -1 : 1;
+    }
+
+    return 0;
+}
+
+void AppFrame::OnColSelect(wxListEvent &event)
+{
+    int col = event.GetColumn();
+    col0order = !col0order;
+    SortInfoStruct m_sortInfo;
+    m_sortInfo.listCtrl = listview;
+    m_sortInfo.column = event.GetColumn();
+    m_sortInfo.direction = !m_sortInfo.direction;
+    m_sortInfo.type = static_cast<int>(SortInfoStruct::SortInfoType::string);
+    listview->SortItems(sort_listview_index, (long)&m_sortInfo);
+}
+
+SortInfoStruct::SortInfoStruct() {}
+
+void AppFrame::OnItemSelect(wxListEvent &event)
+{
+    std::cout << "OnItemSelect"
+              << " Id:" << event.GetId()
+              << " Index:" << event.GetIndex()
+              << std::endl;
 }
 
 void AppFrame::initGrid()
