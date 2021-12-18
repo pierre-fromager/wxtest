@@ -12,7 +12,7 @@ AppFrame::AppFrame(wxApp *app)
     initMenus();
     initStatusBar();
     bindMenuEvents();
-    initPanel();
+    initPanels();
     initRadiosStatus();
     initListview();
     initButton();
@@ -20,7 +20,7 @@ AppFrame::AppFrame(wxApp *app)
     vboxLeft->Add(button, 1, wxEXPAND | wxTOP | wxBOTTOM, 3);
     leftPanel->SetSizer(vboxLeft);
     vboxBottom = new wxBoxSizer(wxVERTICAL);
-    vboxBottom->Add(listview, 1, wxEXPAND | wxTOP | wxBOTTOM, 3);
+    vboxBottom->Add(rankListCtrl, 1, wxEXPAND | wxTOP | wxBOTTOM, 3);
     bottomPanel->SetSizer(vboxBottom);
     hboxRight = new wxBoxSizer(wxHORIZONTAL);
     hboxRight->Add(m_radioBtn1, 1, wxEXPAND | wxTOP | wxBOTTOM, 3);
@@ -73,7 +73,7 @@ void AppFrame::initRadiosStatus()
         static_cast<wxWindowID>(IDs::ID_RAD_GOOD));
 }
 
-void AppFrame::initPanel()
+void AppFrame::initPanels()
 {
     wxSplitterWindow *splitter = new wxSplitterWindow(
         this,
@@ -102,42 +102,7 @@ void AppFrame::initPanel()
 
 void AppFrame::initListview()
 {
-    listview = new wxListCtrl(
-        bottomPanel,
-        ID_List,
-        wxDefaultPosition,
-        wxDefaultSize,
-        wxLC_REPORT);
-    wxListItem col0, col1, col2;
-    col0.SetId(0);
-    col0.SetText(_("Index"));
-    col0.SetWidth(
-        wxLIST_AUTOSIZE_USEHEADER);
-    listview->InsertColumn(0, col0);
-
-    col1.SetId(1);
-    col1.SetText(_("Timestamp"));
-    col1.SetWidth(
-        wxLIST_AUTOSIZE_USEHEADER);
-    listview->InsertColumn(1, col1);
-
-    col2.SetId(2);
-    col2.SetText(_("Status"));
-    col2.SetWidth(
-        wxLIST_AUTOSIZE_USEHEADER);
-    listview->InsertColumn(2, col2);
-
-    Bind(wxEVT_COMMAND_LIST_COL_CLICK, &AppFrame::OnColSelect, this, ID_List);
-    Bind(wxEVT_COMMAND_LIST_ITEM_SELECTED, &AppFrame::OnItemSelect, this, ID_List);
-}
-
-void AppFrame::OnColSelect(wxListEvent &event)
-{
-    SortInfoStruct m_sortInfo(listview);
-    m_sortInfo.column = event.GetColumn();
-    m_sortInfo.direction = !m_sortInfo.direction;
-    m_sortInfo.type = static_cast<int>(SortInfoStruct::SortInfoType::string);
-    listview->SortItems(&m_sortInfo.sortlist, (long)&m_sortInfo);
+    rankListCtrl = new RankListCtrl(bottomPanel);
 }
 
 void AppFrame::OnItemSelect(wxListEvent &event)
@@ -150,8 +115,15 @@ void AppFrame::OnItemSelect(wxListEvent &event)
 
 void AppFrame::initButton()
 {
-    button = new wxButton(leftPanel, ID_Button, wxT("Press"));
-    Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AppFrame::OnPress, this, ID_Button);
+    button = new wxButton(
+        leftPanel,
+        static_cast<wxWindowID>(IDs::ID_BUTTON),
+        wxT("Press"));
+    Bind(
+        wxEVT_COMMAND_BUTTON_CLICKED,
+        &AppFrame::OnPress,
+        this,
+        static_cast<wxWindowID>(IDs::ID_BUTTON));
 }
 
 void AppFrame::initStatusBar()
@@ -174,7 +146,7 @@ void AppFrame::initMenuFile()
 {
     menuFile = new wxMenu;
     menuFile->Append(
-        ID_Hello,
+        static_cast<wxWindowID>(IDs::ID_RESET),
         "&Reset...\tCtrl-R",
         APP_FRAME_STATUS_OVERHELP);
     menuFile->AppendSeparator();
@@ -189,7 +161,7 @@ void AppFrame::initMenuHelp()
 
 void AppFrame::bindMenuEvents()
 {
-    Bind(wxEVT_MENU, &AppFrame::OnReset, this, ID_Hello);
+    Bind(wxEVT_MENU, &AppFrame::OnReset, this, static_cast<wxWindowID>(IDs::ID_RESET));
     Bind(wxEVT_MENU, &AppFrame::OnAbout, this, wxID_ABOUT);
     Bind(wxEVT_MENU, &AppFrame::OnExit, this, wxID_EXIT);
 }
@@ -219,8 +191,7 @@ void AppFrame::OnAbout(wxCommandEvent &event)
 
 void AppFrame::OnReset(wxCommandEvent &event)
 {
-    listview->DeleteAllItems();
-    itemIndex = 0;
+    rankListCtrl->Reset();
 }
 
 void AppFrame::OnTimer(wxTimerEvent &event)
@@ -234,17 +205,14 @@ void AppFrame::OnTimer(wxTimerEvent &event)
 void AppFrame::OnPress(wxCommandEvent &event)
 {
     wxUnusedVar(event);
-    wxListItem item;
-    item.SetId(itemIndex);
-    item.SetText(wxString::Format(wxT("%i"), itemIndex));
-    item.SetColumn(0);
-    long index = listview->InsertItem(item);
-    listview->SetItem(index, 1, timestamp);
-    itemIndex++;
+    RankItem r;
+    r.timestamp = timestamp;
+    r.status = wxString::Format(wxT("%i"), statusId);
+    rankListCtrl->AddRank(r);
 }
 
 void AppFrame::OnStatusChange(wxCommandEvent &event)
 {
-    statusId = event.GetId() - static_cast<wxWindowID>(IDs::ID_RAD_BAD);
-    std::cout << statusId << std::endl;
+    statusId = (event.GetId() - static_cast<wxWindowID>(IDs::ID_RAD_BAD)) + 1;
+    //std::cout << statusId << std::endl;
 }

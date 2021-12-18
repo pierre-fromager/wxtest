@@ -11,8 +11,7 @@
 #include <wx/datetime.h>
 #include <wx/intl.h>
 #include <wx/listctrl.h>
-
-#include "sort.h"
+#include "ranklist.h"
 
 #define APP_FRAME_TITLE "WxQuickStarter"
 #define APP_FRAME_STATUS_WELCOME "Welcome !"
@@ -30,48 +29,47 @@ public:
     AppFrame(wxApp *app);
 
 private:
+    // ctrl ids
     enum class IDs : wxWindowID
     {
         MainWindow = 1000,
+        ID_RESET = 1500,
+        ID_LIST = 1100,
+        ID_BUTTON = 1600,
         ID_RAD_BAD = 2000,
         ID_RAD_MEDIUM = 2001,
         ID_RAD_GOOD = 2002,
         Timer
     };
-    enum
-    {
-        ID_Hello = 1,
-        ID_List = 100,
-        ID_Button = wxID_HIGHEST + 1
-    };
-    wxPanel *panel = nullptr;
-    wxPanel *ctrlpanel = nullptr;
-
+    // sizers
     wxBoxSizer *vboxLeft = nullptr;
     wxBoxSizer *vboxBottom = nullptr;
     wxBoxSizer *hboxRight = nullptr;
-
+    // button
     wxButton *button = nullptr;
-    wxListCtrl *listview = nullptr;
+    // menus
     wxMenu *menuFile = nullptr;
     wxMenu *menuHelp = nullptr;
     wxMenuBar *menuBar = nullptr;
+    // timer
     wxTimer *timer = nullptr;
     wxString timestamp = "        ";
-
+    // radios
     wxRadioButton *m_radioBtn1 = nullptr;
     wxRadioButton *m_radioBtn2 = nullptr;
     wxRadioButton *m_radioBtn3 = nullptr;
-
+    // panels
     wxPanel *leftPanel = nullptr;
     wxPanel *rightPanel = nullptr;
     wxPanel *bottomPanel = nullptr;
-
-    int statusId = 0;
-    int itemIndex = 0;
+    // ranklistctrl
+    RankListCtrl *rankListCtrl = nullptr;
+    // internals
+    int statusId = 1;
+    // voids
     void initMenus();
     void initStatusBar();
-    void initPanel();
+    void initPanels();
     void initMenuFile();
     void initMenuHelp();
     void initButton();
