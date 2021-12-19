@@ -73,6 +73,7 @@ private:
     void initMenuFile();
     void initMenuHelp();
     void initButton();
+    void initSizers();
     void initRadiosStatus();
     void initListview();
     void bindMenuEvents();

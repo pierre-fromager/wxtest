@@ -45,13 +45,19 @@ void RankListCtrl::OnColClick(wxListEvent &evt)
         switch (column)
         {
         case Column_Index:
-            SortItems(CompareIndexAsc, reinterpret_cast<wxIntPtr>(&m_ranks));
+            SortItems(
+                CompareIndexAsc,
+                reinterpret_cast<wxIntPtr>(&m_ranks));
             break;
         case Column_Timestamp:
-            SortItems(CompareTimestampAsc, reinterpret_cast<wxIntPtr>(&m_ranks));
+            SortItems(
+                CompareTimestampAsc,
+                reinterpret_cast<wxIntPtr>(&m_ranks));
             break;
         case Column_Status:
-            SortItems(CompareStatusAsc, reinterpret_cast<wxIntPtr>(&m_ranks));
+            SortItems(
+                CompareStatusAsc,
+                reinterpret_cast<wxIntPtr>(&m_ranks));
             break;
         default:
             wxFAIL;
@@ -60,17 +66,33 @@ void RankListCtrl::OnColClick(wxListEvent &evt)
         switch (column)
         {
         case Column_Index:
-            SortItems(CompareIndexDesc, reinterpret_cast<wxIntPtr>(&m_ranks));
+            SortItems(
+                CompareIndexDesc,
+                reinterpret_cast<wxIntPtr>(&m_ranks));
             break;
         case Column_Timestamp:
-            SortItems(CompareTimestampDesc, reinterpret_cast<wxIntPtr>(&m_ranks));
+            SortItems(
+                CompareTimestampDesc,
+                reinterpret_cast<wxIntPtr>(&m_ranks));
             break;
         case Column_Status:
-            SortItems(CompareStatusDesc, reinterpret_cast<wxIntPtr>(&m_ranks));
+            SortItems(
+                CompareStatusDesc,
+                reinterpret_cast<wxIntPtr>(&m_ranks));
             break;
         default:
             wxFAIL;
         }
+}
+
+int RankListCtrl::compareStr(wxString a, wxString b)
+{
+    return a.CmpNoCase(b);
+}
+
+int RankListCtrl::compareInt(wxString a, wxString b)
+{
+    return (wxAtoi(a) > wxAtoi(b));
 }
 
 void RankListCtrl::GetRanks(
@@ -92,7 +114,7 @@ int wxCALLBACK RankListCtrl::CompareIndexAsc(
 {
     RankItem r1, r2;
     GetRanks(item1, item2, sortData, r1, r2);
-    return r1.index.CmpNoCase(r2.index);
+    return compareInt(r1.index, r2.index);
 }
 
 int wxCALLBACK RankListCtrl::CompareTimestampAsc(
@@ -102,7 +124,7 @@ int wxCALLBACK RankListCtrl::CompareTimestampAsc(
 {
     RankItem r1, r2;
     GetRanks(item1, item2, sortData, r1, r2);
-    return r1.timestamp.CmpNoCase(r2.timestamp);
+    return compareStr(r1.timestamp, r2.timestamp);
 }
 
 int wxCALLBACK RankListCtrl::CompareStatusAsc(
@@ -112,7 +134,7 @@ int wxCALLBACK RankListCtrl::CompareStatusAsc(
 {
     RankItem r1, r2;
     GetRanks(item1, item2, sortData, r1, r2);
-    return r1.status.CmpNoCase(r2.status);
+    return compareInt(r1.status, r2.status);
 }
 
 int wxCALLBACK RankListCtrl::CompareIndexDesc(
@@ -122,7 +144,7 @@ int wxCALLBACK RankListCtrl::CompareIndexDesc(
 {
     RankItem r1, r2;
     GetRanks(item1, item2, sortData, r1, r2);
-    return r2.index.CmpNoCase(r1.index);
+    return compareInt(r2.index, r1.index);
 }
 
 int wxCALLBACK RankListCtrl::CompareTimestampDesc(
@@ -132,7 +154,7 @@ int wxCALLBACK RankListCtrl::CompareTimestampDesc(
 {
     RankItem r1, r2;
     GetRanks(item1, item2, sortData, r1, r2);
-    return r2.timestamp.CmpNoCase(r1.timestamp);
+    return compareStr(r2.timestamp, r1.timestamp);
 }
 
 int wxCALLBACK RankListCtrl::CompareStatusDesc(
@@ -142,5 +164,5 @@ int wxCALLBACK RankListCtrl::CompareStatusDesc(
 {
     RankItem r1, r2;
     GetRanks(item1, item2, sortData, r1, r2);
-    return r2.status.CmpNoCase(r1.status);
+    return compareInt(r2.status, r1.status);
 }

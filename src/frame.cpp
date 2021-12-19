@@ -16,7 +16,14 @@ AppFrame::AppFrame(wxApp *app)
     initRadiosStatus();
     initListview();
     initButton();
-    vboxLeft = new wxBoxSizer(wxVERTICAL);
+    initSizers();
+    initTimer();
+    bindTimer();
+    timer->Start(APP_FRAME_TIMER_DELTA, wxTIMER_CONTINUOUS);
+}
+
+void AppFrame::initSizers(){
+  vboxLeft = new wxBoxSizer(wxVERTICAL);
     vboxLeft->Add(button, 1, wxEXPAND | wxTOP | wxBOTTOM, 3);
     leftPanel->SetSizer(vboxLeft);
     vboxBottom = new wxBoxSizer(wxVERTICAL);
@@ -27,9 +34,6 @@ AppFrame::AppFrame(wxApp *app)
     hboxRight->Add(m_radioBtn2, 1, wxEXPAND | wxTOP | wxBOTTOM, 3);
     hboxRight->Add(m_radioBtn3, 1, wxEXPAND | wxTOP | wxBOTTOM, 3);
     rightPanel->SetSizer(hboxRight);
-    initTimer();
-    bindTimer();
-    timer->Start(APP_FRAME_TIMER_DELTA, wxTIMER_CONTINUOUS);
 }
 
 void AppFrame::initRadiosStatus()

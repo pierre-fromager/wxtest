@@ -41,41 +41,35 @@ private:
 
     RankList m_ranks;
     size_t rankIndex = 0;
-
     void OnColClick(wxListEvent &evt);
-
+    static int compareStr(wxString a, wxString b);
+    static int compareInt(wxString a, wxString b);
     static void GetRanks(
         wxIntPtr item1,
         wxIntPtr item2,
         wxIntPtr sortData,
         RankItem &r1,
         RankItem &r2);
-
     static int wxCALLBACK CompareIndexAsc(
         wxIntPtr item1,
         wxIntPtr item2,
         wxIntPtr sortData);
-
     static int wxCALLBACK CompareTimestampAsc(
         wxIntPtr item1,
         wxIntPtr item2,
         wxIntPtr sortData);
-
     static int wxCALLBACK CompareStatusAsc(
         wxIntPtr item1,
         wxIntPtr item2,
         wxIntPtr sortData);
-
     static int wxCALLBACK CompareIndexDesc(
         wxIntPtr item1,
         wxIntPtr item2,
         wxIntPtr sortData);
-
     static int wxCALLBACK CompareTimestampDesc(
         wxIntPtr item1,
         wxIntPtr item2,
         wxIntPtr sortData);
-
     static int wxCALLBACK CompareStatusDesc(
         wxIntPtr item1,
         wxIntPtr item2,
