@@ -74,14 +74,14 @@ void RankListCtrl::OnColClick(wxListEvent &evt)
     direction = !direction;
     if (column < 0)
         return;
-    SetColumnImage(column, (direction) ? 1 : 2);
+    for (int c = Column_Index; c <= Column_Status; c++)
+        SetColumnImage(c, 0);
+    SetColumnImage(column, (direction) ? 2 : 1);
     if (direction)
 
         switch (column)
         {
         case Column_Index:
-            //SetColumnImage(Column_Index,-1);
-
             SortItems(
                 CompareIndexAsc,
                 reinterpret_cast<wxIntPtr>(&m_ranks));

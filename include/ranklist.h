@@ -9,9 +9,9 @@
 
 #include <wx/icon.h>
 #include <wx/imaglist.h>
-#include "listarrows.xpm"
 #include <wx/listctrl.h>
 #include <vector>
+#include "listarrows_xpm.h"
 
 #define RANK_COL_LABEL_INDEX "Index"
 #define RANK_COL_LABEL_TIMESTAMP "Timestamp"

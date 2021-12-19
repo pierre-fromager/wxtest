@@ -6,7 +6,7 @@ AppFrame::AppFrame(wxApp *app)
           static_cast<wxWindowID>(IDs::MainWindow),
           wxString(app->GetAppDisplayName()),
           wxDefaultPosition,
-          wxSize(480, 300))
+          wxSize(640, 480))
 {
     app->SetAppDisplayName(APP_FRAME_TITLE);
     initMenus();
@@ -85,24 +85,26 @@ void AppFrame::initPanels()
         wxID_ANY,
         wxDefaultPosition,
         wxDefaultSize,
-        wxSP_BORDER | wxSP_LIVE_UPDATE);
+        wxSP_3D | wxSP_LIVE_UPDATE);
     wxSplitterWindow *right_splitter = new wxSplitterWindow(
         splitter,
         wxID_ANY,
         wxDefaultPosition,
         wxDefaultSize,
-        wxSP_BORDER | wxSP_LIVE_UPDATE);
+        wxSP_3D | wxSP_LIVE_UPDATE);
     leftPanel = new wxPanel(splitter);
     rightPanel = new wxPanel(right_splitter);
     bottomPanel = new wxPanel(right_splitter);
     leftPanel->SetBackgroundColour(wxColor(200, 100, 100));
     rightPanel->SetBackgroundColour(wxColor(100, 200, 100));
     bottomPanel->SetBackgroundColour(wxColor(200, 200, 100));
-    right_splitter->SetMinimumPaneSize(100);
+    right_splitter->SetMinimumPaneSize(50);
     right_splitter->SplitHorizontally(rightPanel, bottomPanel);
     right_splitter->SetSashGravity(0);
+    right_splitter->SetSashPosition(50,true);
     splitter->SetMinimumPaneSize(100);
     splitter->SplitVertically(leftPanel, right_splitter);
+    splitter->SetSashPosition(100,true);
 }
 
 void AppFrame::initListview()
