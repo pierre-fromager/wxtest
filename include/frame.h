@@ -39,6 +39,7 @@ private:
         ID_RAD_BAD = 2000,
         ID_RAD_MEDIUM = 2001,
         ID_RAD_GOOD = 2002,
+        ID_RANK_LIST = 3000,
         Timer
     };
     // sizers
@@ -85,7 +86,7 @@ private:
     void OnPress(wxCommandEvent &event);
     void OnTimer(wxTimerEvent &evt);
     void OnItemSelect(wxListEvent &event);
-    void OnColSelect(wxListEvent &event);
+    //void OnColSelect(wxListEvent &event);
     void OnStatusChange(wxCommandEvent &event);
 };
 

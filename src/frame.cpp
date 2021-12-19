@@ -22,8 +22,9 @@ AppFrame::AppFrame(wxApp *app)
     timer->Start(APP_FRAME_TIMER_DELTA, wxTIMER_CONTINUOUS);
 }
 
-void AppFrame::initSizers(){
-  vboxLeft = new wxBoxSizer(wxVERTICAL);
+void AppFrame::initSizers()
+{
+    vboxLeft = new wxBoxSizer(wxVERTICAL);
     vboxLeft->Add(button, 1, wxEXPAND | wxTOP | wxBOTTOM, 3);
     leftPanel->SetSizer(vboxLeft);
     vboxBottom = new wxBoxSizer(wxVERTICAL);
@@ -107,14 +108,18 @@ void AppFrame::initPanels()
 void AppFrame::initListview()
 {
     rankListCtrl = new RankListCtrl(bottomPanel);
+    rankListCtrl->SetId(static_cast<wxWindowID>(IDs::ID_RANK_LIST));
+    Bind(
+        wxEVT_LIST_ITEM_SELECTED,
+        &AppFrame::OnItemSelect,
+        this,
+        static_cast<wxWindowID>(IDs::ID_RANK_LIST));
 }
 
 void AppFrame::OnItemSelect(wxListEvent &event)
 {
-    std::cout << "OnItemSelect"
-              << " Id:" << event.GetId()
-              << " Index:" << event.GetIndex()
-              << std::endl;
+    const RankItem &r = rankListCtrl->GetRank(event.GetIndex());
+    std::cout << "OnItemSelect Timestamp:" << r.timestamp << std::endl;
 }
 
 void AppFrame::initButton()

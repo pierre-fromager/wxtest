@@ -28,6 +28,7 @@ class RankListCtrl : public wxListCtrl
 public:
     RankListCtrl(wxWindow *parent);
     void AddRank(RankItem rank);
+    RankItem GetRank(wxIntPtr index);
     void Reset();
     bool direction = true;
 
