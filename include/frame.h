@@ -10,7 +10,6 @@
 #include <wx/splitter.h>
 #include <wx/datetime.h>
 #include <wx/intl.h>
-#include <wx/listctrl.h>
 #include "ranklist.h"
 
 #define APP_FRAME_TITLE "WxQuickStarter"

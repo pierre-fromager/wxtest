@@ -6,8 +6,13 @@ RankListCtrl::RankListCtrl(wxWindow *parent) : wxListCtrl(
                                                    wxID_ANY,
                                                    wxDefaultPosition,
                                                    wxDefaultSize,
-                                                   wxLC_REPORT)
+                                                   wxLC_REPORT | wxLC_SORT_ASCENDING | wxLC_SORT_DESCENDING)
 {
+    m_imageList = new wxImageList(16, 16, true);
+    m_imageList->Add(wxBitmap(sort_null_xpm));
+    m_imageList->Add(wxBitmap(sort_asc_xpm));
+    m_imageList->Add(wxBitmap(sort_desc_xpm));
+    SetImageList(m_imageList, wxIMAGE_LIST_SMALL);
     InsertColumn(Column_Index, _(RANK_COL_LABEL_INDEX));
     SetColumnWidth(Column_Index, wxLIST_AUTOSIZE_USEHEADER);
     InsertColumn(Column_Timestamp, _(RANK_COL_LABEL_TIMESTAMP));
@@ -15,6 +20,11 @@ RankListCtrl::RankListCtrl(wxWindow *parent) : wxListCtrl(
     InsertColumn(Column_Status, _(RANK_COL_LABEL_STATUS));
     SetColumnWidth(Column_Status, wxLIST_AUTOSIZE_USEHEADER);
     Bind(wxEVT_LIST_COL_CLICK, &RankListCtrl::OnColClick, this);
+}
+
+RankListCtrl::~RankListCtrl()
+{
+    delete m_imageList;
 }
 
 void RankListCtrl::AddRank(RankItem r)
@@ -50,16 +60,28 @@ RankItem RankListCtrl::GetRank(wxIntPtr index)
     return m_ranks[GetRankId(index)];
 }
 
+void RankListCtrl::SetColumnImage(int col, int image)
+{
+    wxListItem item;
+    item.SetMask(wxLIST_MASK_IMAGE);
+    item.SetImage(image);
+    SetColumn(col, item);
+}
+
 void RankListCtrl::OnColClick(wxListEvent &evt)
 {
     int column = evt.GetColumn();
     direction = !direction;
     if (column < 0)
         return;
+    SetColumnImage(column, (direction) ? 1 : 2);
     if (direction)
+
         switch (column)
         {
         case Column_Index:
+            //SetColumnImage(Column_Index,-1);
+
             SortItems(
                 CompareIndexAsc,
                 reinterpret_cast<wxIntPtr>(&m_ranks));

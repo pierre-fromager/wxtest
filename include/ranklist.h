@@ -7,6 +7,9 @@
 #include <wx/wx.h>
 #endif
 
+#include <wx/icon.h>
+#include <wx/imaglist.h>
+#include "listarrows.xpm"
 #include <wx/listctrl.h>
 #include <vector>
 
@@ -27,6 +30,7 @@ class RankListCtrl : public wxListCtrl
 {
 public:
     RankListCtrl(wxWindow *parent);
+    virtual ~RankListCtrl();
     void AddRank(RankItem rank);
     int GetRankId(wxIntPtr index);
     RankItem GetRank(wxIntPtr index);
@@ -40,9 +44,10 @@ private:
         Column_Timestamp,
         Column_Status
     };
-
+    wxImageList *m_imageList;
     RankList m_ranks;
     size_t rankIndex = 0;
+    void SetColumnImage(int col, int image);
     void OnColClick(wxListEvent &evt);
     static int compareStr(wxString a, wxString b);
     static int compareInt(wxString a, wxString b);
