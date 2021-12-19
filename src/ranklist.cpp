@@ -35,13 +35,19 @@ void RankListCtrl::Reset()
     rankIndex = 0;
 }
 
-RankItem RankListCtrl::GetRank(wxIntPtr index) {
+int RankListCtrl::GetRankId(wxIntPtr index)
+{
     wxListItem listItem;
     listItem.m_mask = wxLIST_MASK_TEXT;
     listItem.m_itemId = index;
     listItem.m_col = Column_Index;
     GetItem(listItem);
-    return m_ranks[wxAtoi(listItem.m_text)];
+    return wxAtoi(listItem.m_text);
+}
+
+RankItem RankListCtrl::GetRank(wxIntPtr index)
+{
+    return m_ranks[GetRankId(index)];
 }
 
 void RankListCtrl::OnColClick(wxListEvent &evt)
