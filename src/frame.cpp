@@ -1,3 +1,4 @@
+
 #include "frame.h"
 
 AppFrame::AppFrame()
@@ -8,7 +9,7 @@ AppFrame::AppFrame()
           wxDefaultPosition,
           wxSize(640, 480))
 {
-    wxGetApp().GetLogger()->Debug("Frame start");
+    GetLogger()->Debug(APP_LOG_MSG_FRAME_START);
     initMenus();
     initStatusBar();
     bindMenuEvents();
@@ -144,10 +145,9 @@ void AppFrame::initButton()
         static_cast<wxWindowID>(IDs::ID_BUTTON));
 }
 
-void AppFrame::initStatusBar()
+Logger *AppFrame::GetLogger()
 {
-    CreateStatusBar();
-    SetStatusText(APP_FRAME_STATUS_WELCOME);
+    return wxGetApp().GetLogger();
 }
 
 void AppFrame::initMenus()
@@ -175,6 +175,12 @@ void AppFrame::initMenuHelp()
 {
     menuHelp = new wxMenu;
     menuHelp->Append(wxID_ABOUT);
+}
+
+void AppFrame::initStatusBar()
+{
+    CreateStatusBar();
+    SetStatusText(APP_FRAME_STATUS_WELCOME);
 }
 
 void AppFrame::bindMenuEvents()
@@ -224,7 +230,7 @@ void AppFrame::OnTimer(wxTimerEvent &event)
     wxUnusedVar(event);
     timestamp = wxDateTime::Now().FormatTime();
     const char *lts = (const_cast<char *>((const char *)timestamp.mb_str()));
-    wxGetApp().GetLogger()->Debug("timestamp:%s\n",lts);
+    GetLogger()->Debug("timestamp:%s\n", lts);
     timestampCtrl->SetText(timestamp);
 }
 
@@ -240,7 +246,5 @@ void AppFrame::OnPress(wxCommandEvent &event)
 void AppFrame::OnStatusChange(wxCommandEvent &event)
 {
     statusId = (event.GetId() - static_cast<wxWindowID>(IDs::ID_RAD_BAD)) + 1;
-#ifdef APP_FRAME_DEBUG
-    //std::cout << "statusId:" << statusId << std::endl;
-#endif
+    GetLogger()->Debug("statusId:%d", statusId);
 }

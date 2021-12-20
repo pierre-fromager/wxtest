@@ -14,7 +14,7 @@
 #include "timestampctrl.h"
 #include "app.h"
 
-#define APP_FRAME_DEBUG
+#define APP_LOG_MSG_FRAME_START "Frame start"
 #define APP_LOG_MSG_STOP L"App stop"
 #define APP_FRAME_TITLE "WxQuickStarter"
 #define APP_FRAME_STATUS_WELCOME "Welcome !"
@@ -73,11 +73,12 @@ private:
     // internals
     int statusId = 1;
     // voids
+    Logger *GetLogger();
     void initMenus();
-    void initStatusBar();
-    void initPanels();
     void initMenuFile();
     void initMenuHelp();
+    void initStatusBar();
+    void initPanels();
     void initButton();
     void initSizers();
     void initRadiosStatus();
