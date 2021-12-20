@@ -7,3 +7,4 @@ callgrind.*
 .~lock.*
 *.csv
 *.dat
+log.txt

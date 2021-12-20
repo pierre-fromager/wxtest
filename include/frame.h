@@ -12,8 +12,10 @@
 #include <wx/intl.h>
 #include "ranklistctrl.h"
 #include "timestampctrl.h"
+#include "app.h"
 
 #define APP_FRAME_DEBUG
+#define APP_LOG_MSG_STOP L"App stop"
 #define APP_FRAME_TITLE "WxQuickStarter"
 #define APP_FRAME_STATUS_WELCOME "Welcome !"
 #define APP_FRAME_STATUS_HINT_RESET "Reset all items from list"
@@ -27,7 +29,7 @@
 class AppFrame : public wxFrame
 {
 public:
-    AppFrame(wxApp *app);
+    AppFrame();
 
 private:
     // ctrl ids
