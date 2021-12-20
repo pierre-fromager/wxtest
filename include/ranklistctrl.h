@@ -1,6 +1,6 @@
 
-#ifndef APP_RANKLIST_H
-#define APP_RANKLIST_H
+#ifndef APP_RANKLISTCTRL_H
+#define APP_RANKLISTCTRL_H
 
 #include <wx/wxprec.h>
 #ifndef WX_PRECOMP

@@ -10,11 +10,13 @@
 #include <wx/splitter.h>
 #include <wx/datetime.h>
 #include <wx/intl.h>
-#include "ranklist.h"
+#include "ranklistctrl.h"
+#include "timestampctrl.h"
 
+#define APP_FRAME_DEBUG
 #define APP_FRAME_TITLE "WxQuickStarter"
 #define APP_FRAME_STATUS_WELCOME "Welcome !"
-#define APP_FRAME_STATUS_OVERHELP "Status bar help string for Hello item"
+#define APP_FRAME_STATUS_HINT_RESET "Reset all items from list"
 #define APP_FRAME_MENUBAR_FILE "&File"
 #define APP_FRAME_MENUBAR_HELP "&Help"
 #define APP_FRAME_ABOUT_MSGBOX_TITLE "About"
@@ -35,6 +37,7 @@ private:
         ID_RESET = 1500,
         ID_LIST = 1100,
         ID_BUTTON = 1600,
+        ID_TXT_TS = 1601,
         ID_RAD_BAD = 2000,
         ID_RAD_MEDIUM = 2001,
         ID_RAD_GOOD = 2002,
@@ -46,13 +49,14 @@ private:
     wxBoxSizer *vboxBottom = nullptr;
     wxBoxSizer *hboxRight = nullptr;
     // button
-    wxButton *button = nullptr;
+    wxButton *buttonAdd = nullptr;
     // menus
     wxMenu *menuFile = nullptr;
     wxMenu *menuHelp = nullptr;
     wxMenuBar *menuBar = nullptr;
     // timer
-    wxTimer *timer = nullptr;
+    //wxTimer *timer = nullptr;
+    TimestampCtrl *timestampCtrl = nullptr;
     wxString timestamp = "        ";
     // radios
     wxRadioButton *m_radioBtn1 = nullptr;
@@ -85,7 +89,6 @@ private:
     void OnPress(wxCommandEvent &event);
     void OnTimer(wxTimerEvent &evt);
     void OnItemSelect(wxListEvent &event);
-    //void OnColSelect(wxListEvent &event);
     void OnStatusChange(wxCommandEvent &event);
 };
 

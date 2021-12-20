@@ -1,5 +1,5 @@
 
-#include "ranklist.h"
+#include "ranklistctrl.h"
 
 RankListCtrl::RankListCtrl(wxWindow *parent) : wxListCtrl(
                                                    parent,

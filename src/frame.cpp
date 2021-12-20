@@ -16,48 +16,51 @@ AppFrame::AppFrame(wxApp *app)
     initRadiosStatus();
     initListview();
     initButton();
-    initSizers();
     initTimer();
     bindTimer();
-    timer->Start(APP_FRAME_TIMER_DELTA, wxTIMER_CONTINUOUS);
+    initSizers();
+    timestampCtrl->TimerStart();
 }
 
 void AppFrame::initSizers()
 {
     vboxLeft = new wxBoxSizer(wxVERTICAL);
-    vboxLeft->Add(button, 1, wxEXPAND | wxTOP | wxBOTTOM, 3);
+    vboxLeft->Add(timestampCtrl, 0, wxEXPAND | wxTOP | wxBOTTOM, 1);
+    vboxLeft->Add(m_radioBtn1, 0, wxEXPAND | wxTOP | wxBOTTOM, 1);
+    vboxLeft->Add(m_radioBtn2, 0, wxEXPAND | wxTOP | wxBOTTOM, 1);
+    vboxLeft->Add(m_radioBtn3, 0, wxEXPAND | wxTOP | wxBOTTOM, 1);
+    vboxLeft->Add(buttonAdd, 1, wxEXPAND | wxTOP | wxBOTTOM, 3);
     leftPanel->SetSizer(vboxLeft);
     vboxBottom = new wxBoxSizer(wxVERTICAL);
     vboxBottom->Add(rankListCtrl, 1, wxEXPAND | wxTOP | wxBOTTOM, 3);
     bottomPanel->SetSizer(vboxBottom);
-    hboxRight = new wxBoxSizer(wxHORIZONTAL);
-    hboxRight->Add(m_radioBtn1, 1, wxEXPAND | wxTOP | wxBOTTOM, 3);
-    hboxRight->Add(m_radioBtn2, 1, wxEXPAND | wxTOP | wxBOTTOM, 3);
-    hboxRight->Add(m_radioBtn3, 1, wxEXPAND | wxTOP | wxBOTTOM, 3);
-    rightPanel->SetSizer(hboxRight);
+    //hboxRight = new wxBoxSizer(wxHORIZONTAL);
+    //hboxRight->Add(timestampCtrl, 0, wxEXPAND | wxTOP | wxBOTTOM, 1);
+    //rightPanel->SetSizer(hboxRight);
 }
 
 void AppFrame::initRadiosStatus()
 {
+    const wxSize &rs = wxSize(20, 20);
     m_radioBtn1 = new wxRadioButton(
-        rightPanel,
+        leftPanel,
         static_cast<wxWindowID>(IDs::ID_RAD_BAD),
-        wxT("Bad"),
+        _("&Bad"),
         wxDefaultPosition,
-        wxDefaultSize,
+        rs,
         wxRB_GROUP);
     m_radioBtn1->SetValue(true);
     Bind(
         wxEVT_RADIOBUTTON,
         &AppFrame::OnStatusChange,
         this,
-        static_cast<wxWindowID>(IDs::ID_RAD_BAD));
+        static_cast<wxWindowID>(AppFrame::IDs::ID_RAD_BAD));
     m_radioBtn2 = new wxRadioButton(
-        rightPanel,
+        leftPanel,
         static_cast<wxWindowID>(IDs::ID_RAD_MEDIUM),
-        wxT("Medium"),
+        _("&Medium"),
         wxDefaultPosition,
-        wxDefaultSize,
+        rs,
         0);
     Bind(
         wxEVT_RADIOBUTTON,
@@ -65,11 +68,11 @@ void AppFrame::initRadiosStatus()
         this,
         static_cast<wxWindowID>(IDs::ID_RAD_MEDIUM));
     m_radioBtn3 = new wxRadioButton(
-        rightPanel,
+        leftPanel,
         static_cast<wxWindowID>(IDs::ID_RAD_GOOD),
-        wxT("Good"),
+        _("&Good"),
         wxDefaultPosition,
-        wxDefaultSize,
+        rs,
         0);
     Bind(
         wxEVT_RADIOBUTTON,
@@ -95,16 +98,18 @@ void AppFrame::initPanels()
     leftPanel = new wxPanel(splitter);
     rightPanel = new wxPanel(right_splitter);
     bottomPanel = new wxPanel(right_splitter);
+#ifdef APP_FRAME_DEBUG
     leftPanel->SetBackgroundColour(wxColor(200, 100, 100));
     rightPanel->SetBackgroundColour(wxColor(100, 200, 100));
     bottomPanel->SetBackgroundColour(wxColor(200, 200, 100));
+#endif
     right_splitter->SetMinimumPaneSize(50);
     right_splitter->SplitHorizontally(rightPanel, bottomPanel);
     right_splitter->SetSashGravity(0);
-    right_splitter->SetSashPosition(50,true);
+    right_splitter->SetSashPosition(50, true);
     splitter->SetMinimumPaneSize(100);
     splitter->SplitVertically(leftPanel, right_splitter);
-    splitter->SetSashPosition(100,true);
+    splitter->SetSashPosition(100, true);
 }
 
 void AppFrame::initListview()
@@ -121,15 +126,17 @@ void AppFrame::initListview()
 void AppFrame::OnItemSelect(wxListEvent &event)
 {
     const RankItem &r = rankListCtrl->GetRank(event.GetIndex());
+#ifdef APP_FRAME_DEBUG
     std::cout << "OnItemSelect Timestamp:" << r.timestamp << std::endl;
+#endif
 }
 
 void AppFrame::initButton()
 {
-    button = new wxButton(
+    buttonAdd = new wxButton(
         leftPanel,
         static_cast<wxWindowID>(IDs::ID_BUTTON),
-        wxT("Press"));
+        _("&Add"));
     Bind(
         wxEVT_COMMAND_BUTTON_CLICKED,
         &AppFrame::OnPress,
@@ -159,7 +166,7 @@ void AppFrame::initMenuFile()
     menuFile->Append(
         static_cast<wxWindowID>(IDs::ID_RESET),
         "&Reset...\tCtrl-R",
-        APP_FRAME_STATUS_OVERHELP);
+        APP_FRAME_STATUS_HINT_RESET);
     menuFile->AppendSeparator();
     menuFile->Append(wxID_EXIT);
 }
@@ -179,12 +186,18 @@ void AppFrame::bindMenuEvents()
 
 void AppFrame::initTimer()
 {
-    timer = new wxTimer(this, static_cast<int>(IDs::Timer));
+    timestampCtrl = new TimestampCtrl(leftPanel);
+    timestampCtrl->SetId(static_cast<wxWindowID>(IDs::ID_TXT_TS));
+    timestampCtrl->SetTimerId(static_cast<wxWindowID>(IDs::Timer));
 }
 
 void AppFrame::bindTimer()
 {
-    Bind(wxEVT_TIMER, &AppFrame::OnTimer, this, timer->GetId());
+    timestampCtrl->Bind(
+        wxEVT_TIMER,
+        &AppFrame::OnTimer,
+        this,
+        timestampCtrl->GetTimerId());
 }
 
 void AppFrame::OnExit(wxCommandEvent &event)
@@ -209,8 +222,10 @@ void AppFrame::OnTimer(wxTimerEvent &event)
 {
     wxUnusedVar(event);
     timestamp = wxDateTime::Now().FormatTime();
-    button->SetLabel(timestamp);
-    SetStatusText(timestamp);
+#ifdef APP_FRAME_DEBUG
+    //std::cout << timestamp << std::endl;
+#endif
+    timestampCtrl->SetText(timestamp);
 }
 
 void AppFrame::OnPress(wxCommandEvent &event)
@@ -225,5 +240,7 @@ void AppFrame::OnPress(wxCommandEvent &event)
 void AppFrame::OnStatusChange(wxCommandEvent &event)
 {
     statusId = (event.GetId() - static_cast<wxWindowID>(IDs::ID_RAD_BAD)) + 1;
-    //std::cout << statusId << std::endl;
+#ifdef APP_FRAME_DEBUG
+    std::cout << statusId << std::endl;
+#endif
 }
