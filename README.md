@@ -20,6 +20,7 @@ App uses :
 
 ### Compiler.
 * g++
+
 ### wxWidget dev lib
 wWidget dev library (3.0) and above.
 * Check installed version on debian.
@@ -34,8 +35,10 @@ apt-cache search 'wxWidget' | grep dev
 ```
 sudo apt-get install libwxbase3.0-dev libwxgtk-media3.0-dev libwxgtk3.0-dev  
 ```
+
 ### Doxygen 
 * doc generator.
+
 ### Cppcheck 
 * C++ code checker.  
 * Hereby used with std c++11 but should be c++17.  
