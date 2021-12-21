@@ -16,9 +16,11 @@ AppFrame::AppFrame()
     initPanels();
     initRadiosStatus();
     initListview();
-    initButton();
+    initButtonAdd();
+    initButtonGenFoo();
     initTimer();
     bindTimer();
+    bindFooEvents();
     initSizers();
     timestampCtrl->TimerStart();
 }
@@ -36,9 +38,33 @@ void AppFrame::initSizers()
     vboxBottom = new wxBoxSizer(wxVERTICAL);
     vboxBottom->Add(rankListCtrl, 1, LeftProportion, 3);
     bottomPanel->SetSizer(vboxBottom);
-    //hboxRight = new wxBoxSizer(wxHORIZONTAL);
-    //hboxRight->Add(timestampCtrl, 0, wxEXPAND | wxTOP | wxBOTTOM, 1);
-    //rightPanel->SetSizer(hboxRight);
+    hboxRight = new wxBoxSizer(wxHORIZONTAL);
+    hboxRight->Add(fooButton, 0, wxEXPAND | wxTOP | wxBOTTOM, 1);
+    rightPanel->SetSizer(hboxRight);
+}
+
+void AppFrame::bindFooEvents()
+{
+    Bind(FOOEVENT_TYPE, &AppFrame::OnFooEvent, this);
+}
+
+void AppFrame::OnFooEvent(MyFooEvent &ev)
+{
+    GetLogger()->Debug(
+        "%s id=%d x=%f y=%f",
+        __PRETTY_FUNCTION__,
+        ev.GetId(),
+        ev.GetPoint().x,
+        ev.GetPoint().y);
+}
+
+void AppFrame::OnFooButton(wxCommandEvent &ev)
+{
+    wxUnusedVar(ev);
+    MyFooEvent event(FOOEVENT_TYPE, statusId);
+    wxRealPoint rp(1.01, 2.02);
+    event.SetPoint(rp);
+    wxPostEvent(this, event);
 }
 
 void AppFrame::initRadiosStatus()
@@ -133,17 +159,27 @@ void AppFrame::OnItemSelect(wxListEvent &event)
 #endif
 }
 
-void AppFrame::initButton()
+void AppFrame::initButtonAdd()
 {
     buttonAdd = new wxButton(
         leftPanel,
-        static_cast<wxWindowID>(IDs::ID_BUTTON),
+        static_cast<wxWindowID>(IDs::ID_BUTTON_ADD),
         _("&Add"));
     Bind(
         wxEVT_COMMAND_BUTTON_CLICKED,
         &AppFrame::OnPress,
         this,
-        static_cast<wxWindowID>(IDs::ID_BUTTON));
+        static_cast<wxWindowID>(IDs::ID_BUTTON_ADD));
+}
+
+void AppFrame::initButtonGenFoo()
+{
+    fooButton = new wxButton(rightPanel, 1971, "GenFooEvent");
+    Bind(
+        wxEVT_COMMAND_BUTTON_CLICKED,
+        &AppFrame::OnFooButton,
+        this,
+        1971);
 }
 
 FileLogger *AppFrame::GetLogger()
@@ -231,7 +267,7 @@ void AppFrame::OnTimer(wxTimerEvent &event)
     wxUnusedVar(event);
     timestamp = wxDateTime::Now().FormatTime();
     const char *lts = (const_cast<char *>((const char *)timestamp.mb_str()));
-    GetLogger()->Debug("%s timestamp:%s\n", __PRETTY_FUNCTION__, lts);
+    //GetLogger()->Debug("%s timestamp:%s\n", __PRETTY_FUNCTION__, lts);
     timestampCtrl->SetText(timestamp);
 }
 
@@ -247,5 +283,5 @@ void AppFrame::OnPress(wxCommandEvent &event)
 void AppFrame::OnStatusChange(wxCommandEvent &event)
 {
     statusId = (event.GetId() - static_cast<wxWindowID>(IDs::ID_RAD_BAD)) + 1;
-    GetLogger()->Debug("statusId:%d", statusId);
+    GetLogger()->Debug("%s statusId:%d", __PRETTY_FUNCTION__, statusId);
 }

@@ -7,6 +7,8 @@
 #include <wx/wx.h>
 #endif
 
+#include "fooevent.h"
+
 #include <wx/splitter.h>
 #include <wx/datetime.h>
 #include <wx/intl.h>
@@ -38,7 +40,7 @@ private:
         MainWindow = 1000,
         ID_RESET = 1500,
         ID_LIST = 1100,
-        ID_BUTTON = 1600,
+        ID_BUTTON_ADD = 1600,
         ID_TXT_TS = 1601,
         ID_RAD_BAD = 2000,
         ID_RAD_MEDIUM = 2001,
@@ -50,8 +52,9 @@ private:
     wxBoxSizer *vboxLeft = nullptr;
     wxBoxSizer *vboxBottom = nullptr;
     wxBoxSizer *hboxRight = nullptr;
-    // button
+    // buttons
     wxButton *buttonAdd = nullptr;
+    wxButton *fooButton  = nullptr;
     // menus
     wxMenu *menuFile = nullptr;
     wxMenu *menuHelp = nullptr;
@@ -79,17 +82,21 @@ private:
     void initMenuHelp();
     void initStatusBar();
     void initPanels();
-    void initButton();
+    void initButtonAdd();
+    void initButtonGenFoo();
     void initSizers();
     void initRadiosStatus();
     void initListview();
     void bindMenuEvents();
     void initTimer();
     void bindTimer();
+    void bindFooEvents();
     void OnReset(wxCommandEvent &event);
     void OnExit(wxCommandEvent &event);
     void OnAbout(wxCommandEvent &event);
     void OnPress(wxCommandEvent &event);
+    void OnFooButton(wxCommandEvent &event);
+    void OnFooEvent(MyFooEvent &ev);
     void OnTimer(wxTimerEvent &evt);
     void OnItemSelect(wxListEvent &event);
     void OnStatusChange(wxCommandEvent &event);
