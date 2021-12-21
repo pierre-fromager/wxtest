@@ -70,43 +70,17 @@ void AppFrame::OnFooButton(wxCommandEvent &ev)
 void AppFrame::initRadiosStatus()
 {
     const wxSize &rs = wxSize(20, 20);
-    m_radioBtn1 = new wxRadioButton(
-        leftPanel,
-        static_cast<wxWindowID>(IDs::ID_RAD_BAD),
-        _("&Bad"),
-        wxDefaultPosition,
-        rs,
-        wxRB_GROUP);
+    const wxWindow &ridBad = static_cast<wxWindowID>(IDs::ID_RAD_BAD);
+    const wxWindow &ridMedium = static_cast<wxWindowID>(IDs::ID_RAD_MEDIUM);
+    const wxWindow &ridGood = static_cast<wxWindowID>(IDs::ID_RAD_GOOD);
+    const wxPoint &dpos = wxDefaultPosition;
+    m_radioBtn1 = new wxRadioButton(leftPanel, ridBad, _("&Bad"), dpos, rs, wxRB_GROUP);
     m_radioBtn1->SetValue(true);
-    Bind(
-        wxEVT_RADIOBUTTON,
-        &AppFrame::OnStatusChange,
-        this,
-        static_cast<wxWindowID>(AppFrame::IDs::ID_RAD_BAD));
-    m_radioBtn2 = new wxRadioButton(
-        leftPanel,
-        static_cast<wxWindowID>(IDs::ID_RAD_MEDIUM),
-        _("&Medium"),
-        wxDefaultPosition,
-        rs,
-        0);
-    Bind(
-        wxEVT_RADIOBUTTON,
-        &AppFrame::OnStatusChange,
-        this,
-        static_cast<wxWindowID>(IDs::ID_RAD_MEDIUM));
-    m_radioBtn3 = new wxRadioButton(
-        leftPanel,
-        static_cast<wxWindowID>(IDs::ID_RAD_GOOD),
-        _("&Good"),
-        wxDefaultPosition,
-        rs,
-        0);
-    Bind(
-        wxEVT_RADIOBUTTON,
-        &AppFrame::OnStatusChange,
-        this,
-        static_cast<wxWindowID>(IDs::ID_RAD_GOOD));
+    Bind(wxEVT_RADIOBUTTON, &AppFrame::OnStatusChange, this, ridBad);
+    m_radioBtn2 = new wxRadioButton(leftPanel, ridMedium, _("&Medium"), dpos, rs, 0);
+    Bind(wxEVT_RADIOBUTTON, &AppFrame::OnStatusChange, this, ridMedium);
+    m_radioBtn3 = new wxRadioButton(leftPanel, ridGood, _("&Good"), dpos, rs, 0);
+    Bind(wxEVT_RADIOBUTTON, &AppFrame::OnStatusChange, this, ridGood);
 }
 
 void AppFrame::initPanels()
@@ -161,25 +135,16 @@ void AppFrame::OnItemSelect(wxListEvent &event)
 
 void AppFrame::initButtonAdd()
 {
-    buttonAdd = new wxButton(
-        leftPanel,
-        static_cast<wxWindowID>(IDs::ID_BUTTON_ADD),
-        _("&Add"));
-    Bind(
-        wxEVT_COMMAND_BUTTON_CLICKED,
-        &AppFrame::OnPress,
-        this,
-        static_cast<wxWindowID>(IDs::ID_BUTTON_ADD));
+    const wxWindowID &bid = static_cast<wxWindowID>(IDs::ID_BUTTON_ADD);
+    buttonAdd = new wxButton(leftPanel, bid, _("&Add"));
+    Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AppFrame::OnPress, this, bid);
 }
 
 void AppFrame::initButtonGenFoo()
 {
-    fooButton = new wxButton(rightPanel, 1971, "GenFooEvent");
-    Bind(
-        wxEVT_COMMAND_BUTTON_CLICKED,
-        &AppFrame::OnFooButton,
-        this,
-        1971);
+    const wxWindowID &bid = static_cast<wxWindowID>(IDs::ID_BUTTON_FOO);
+    fooButton = new wxButton(rightPanel, bid, "GenFooEvent");
+    Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AppFrame::OnFooButton, this, bid);
 }
 
 FileLogger *AppFrame::GetLogger()
@@ -236,11 +201,7 @@ void AppFrame::initTimer()
 
 void AppFrame::bindTimer()
 {
-    timestampCtrl->Bind(
-        wxEVT_TIMER,
-        &AppFrame::OnTimer,
-        this,
-        timestampCtrl->GetTimerId());
+    timestampCtrl->Bind(wxEVT_TIMER, &AppFrame::OnTimer, this, timestampCtrl->GetTimerId());
 }
 
 void AppFrame::OnExit(wxCommandEvent &event)
