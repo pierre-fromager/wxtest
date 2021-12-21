@@ -30,8 +30,20 @@ $(TARGET): $(OBJECTS)
 doc:
 	doxygen $(DOC)/wxtest.conf
 
-.PHONY: clean
+.PHONY: cleandoc
+cleandoc:
+	rm -rf $(DOC)/html	
 
+.PHONY: clean
 clean:
 	rm -rf $(TARGET) $(OBJECTS)  
+
+.PHONY: check
+check:
+	cppcheck -I./include \
+		--check-config \
+		--enable=all \
+		--std=c++11 \
+		--suppress=missingIncludeSystem \
+		$(SRC) -I $(SRC)	
 
