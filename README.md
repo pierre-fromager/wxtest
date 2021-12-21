@@ -24,14 +24,19 @@ App uses :
 ### wxWidget dev lib
 wWidget dev library (3.0) and above.
 * Check installed version on debian.
+
 ```
 dpkg -l | grep 'wxWidget' | grep dev
 ```
+
 * Check all wWidget available dev lib to be installed.
+
 ```
 apt-cache search 'wxWidget' | grep dev
 ```
+
 * Minimal install on debian.
+
 ```
 sudo apt-get install libwxbase3.0-dev libwxgtk-media3.0-dev libwxgtk3.0-dev  
 ```
@@ -46,23 +51,31 @@ sudo apt-get install libwxbase3.0-dev libwxgtk-media3.0-dev libwxgtk3.0-dev
 ## Build
 
 ### Build app
+
 ```
 make
 ```
+
 ### Clean build
+
 ```
 make clean
 ```
+
 ### Build doc
+
 ```
 make doc
 ```
+
 ### Clean doc
+
 ```
 make doc
 ```
 
 ## Code check
+
 ```
 make check
 ```
