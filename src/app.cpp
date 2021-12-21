@@ -6,8 +6,9 @@ wxIMPLEMENT_APP(App);
 
 bool App::OnInit()
 {
-    m_logger = new Logger(APP_LOG_FILENAME);
-    m_logger->SetLevel(static_cast<logger_level_t>(Logger::Levels::Debug));
+    m_logger = new FileLogger(APP_LOG_FILENAME);
+    m_logger->SetLevel(static_cast<logger_level_t>(FileLogger::Levels::Debug));
+    SetAppName(APP_NAME);
     SetAppDisplayName(APP_NAME);
     AppFrame *appFrame = new AppFrame();
     SetTopWindow(appFrame);
@@ -20,7 +21,7 @@ App::~App()
     delete m_logger;
 }
 
-Logger *App::GetLogger()
+FileLogger *App::GetLogger()
 {
     return m_logger;
 }

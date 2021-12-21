@@ -11,7 +11,7 @@
 
 typedef unsigned long logger_level_t;
 
-class Logger
+class FileLogger
 {
 public:
     enum class Levels : logger_level_t
@@ -28,8 +28,8 @@ public:
         User,
         Max
     };
-    Logger(const char *filename);
-    virtual ~Logger();
+    FileLogger(const char *filename);
+    virtual ~FileLogger();
     void SetLevel(logger_level_t level);
     void Debug(const char *format, ...);
 

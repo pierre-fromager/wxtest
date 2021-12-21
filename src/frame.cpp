@@ -5,7 +5,7 @@ AppFrame::AppFrame()
     : wxFrame(
           nullptr,
           static_cast<wxWindowID>(IDs::MainWindow),
-          wxString(""),
+          wxString(wxGetApp().GetAppName()),
           wxDefaultPosition,
           wxSize(640, 480))
 {
@@ -25,15 +25,16 @@ AppFrame::AppFrame()
 
 void AppFrame::initSizers()
 {
+    const int LeftProportion = wxEXPAND | wxTOP | wxBOTTOM;
     vboxLeft = new wxBoxSizer(wxVERTICAL);
-    vboxLeft->Add(timestampCtrl, 0, wxEXPAND | wxTOP | wxBOTTOM, 1);
-    vboxLeft->Add(m_radioBtn1, 0, wxEXPAND | wxTOP | wxBOTTOM, 1);
-    vboxLeft->Add(m_radioBtn2, 0, wxEXPAND | wxTOP | wxBOTTOM, 1);
-    vboxLeft->Add(m_radioBtn3, 0, wxEXPAND | wxTOP | wxBOTTOM, 1);
-    vboxLeft->Add(buttonAdd, 1, wxEXPAND | wxTOP | wxBOTTOM, 3);
+    vboxLeft->Add(timestampCtrl, 0, LeftProportion, 1);
+    vboxLeft->Add(m_radioBtn1, 0, LeftProportion, 1);
+    vboxLeft->Add(m_radioBtn2, 0, LeftProportion, 1);
+    vboxLeft->Add(m_radioBtn3, 0, LeftProportion, 1);
+    vboxLeft->Add(buttonAdd, 1, LeftProportion, 3);
     leftPanel->SetSizer(vboxLeft);
     vboxBottom = new wxBoxSizer(wxVERTICAL);
-    vboxBottom->Add(rankListCtrl, 1, wxEXPAND | wxTOP | wxBOTTOM, 3);
+    vboxBottom->Add(rankListCtrl, 1, LeftProportion, 3);
     bottomPanel->SetSizer(vboxBottom);
     //hboxRight = new wxBoxSizer(wxHORIZONTAL);
     //hboxRight->Add(timestampCtrl, 0, wxEXPAND | wxTOP | wxBOTTOM, 1);
@@ -145,7 +146,7 @@ void AppFrame::initButton()
         static_cast<wxWindowID>(IDs::ID_BUTTON));
 }
 
-Logger *AppFrame::GetLogger()
+FileLogger *AppFrame::GetLogger()
 {
     return wxGetApp().GetLogger();
 }
@@ -230,7 +231,7 @@ void AppFrame::OnTimer(wxTimerEvent &event)
     wxUnusedVar(event);
     timestamp = wxDateTime::Now().FormatTime();
     const char *lts = (const_cast<char *>((const char *)timestamp.mb_str()));
-    GetLogger()->Debug("timestamp:%s\n", lts);
+    GetLogger()->Debug("%s timestamp:%s\n", __PRETTY_FUNCTION__, lts);
     timestampCtrl->SetText(timestamp);
 }
 

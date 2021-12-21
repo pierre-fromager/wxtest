@@ -1,7 +1,7 @@
 
-#include "logger.h"
+#include "filelogger.h"
 
-Logger::Logger(const char *filename) : m_filename(filename)
+FileLogger::FileLogger(const char *filename) : m_filename(filename)
 {
     m_file = fopen(m_filename, LOGGER_FILE_OPEN_MODE);
     m_log_line = (char *)malloc(sizeof(char) * LOGGER_LINE_MAX_LEN);
@@ -11,7 +11,7 @@ Logger::Logger(const char *filename) : m_filename(filename)
     wxLog::SetVerbose(true);
 }
 
-Logger::~Logger()
+FileLogger::~FileLogger()
 {
     if (m_log_line != NULL)
         free(m_log_line);
@@ -19,7 +19,7 @@ Logger::~Logger()
         fclose(m_file);
 }
 
-void Logger::Debug(const char *fmt, ...)
+void FileLogger::Debug(const char *fmt, ...)
 {
     if (m_level <= static_cast<logger_level_t>(Levels::Debug))
     {
@@ -31,7 +31,7 @@ void Logger::Debug(const char *fmt, ...)
     }
 }
 
-void Logger::SetLevel(logger_level_t level)
+void FileLogger::SetLevel(logger_level_t level)
 {
     m_level = level;
 }

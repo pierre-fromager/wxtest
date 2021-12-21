@@ -73,7 +73,7 @@ private:
     // internals
     int statusId = 1;
     // voids
-    Logger *GetLogger();
+    FileLogger *GetLogger();
     void initMenus();
     void initMenuFile();
     void initMenuHelp();
