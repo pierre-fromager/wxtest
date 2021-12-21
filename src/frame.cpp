@@ -70,9 +70,9 @@ void AppFrame::OnFooButton(wxCommandEvent &ev)
 void AppFrame::initRadiosStatus()
 {
     const wxSize &rs = wxSize(20, 20);
-    const wxWindow &ridBad = static_cast<wxWindowID>(IDs::ID_RAD_BAD);
-    const wxWindow &ridMedium = static_cast<wxWindowID>(IDs::ID_RAD_MEDIUM);
-    const wxWindow &ridGood = static_cast<wxWindowID>(IDs::ID_RAD_GOOD);
+    const wxWindowID &ridBad = static_cast<wxWindowID>(IDs::ID_RAD_BAD);
+    const wxWindowID &ridMedium = static_cast<wxWindowID>(IDs::ID_RAD_MEDIUM);
+    const wxWindowID &ridGood = static_cast<wxWindowID>(IDs::ID_RAD_GOOD);
     const wxPoint &dpos = wxDefaultPosition;
     m_radioBtn1 = new wxRadioButton(leftPanel, ridBad, _("&Bad"), dpos, rs, wxRB_GROUP);
     m_radioBtn1->SetValue(true);
