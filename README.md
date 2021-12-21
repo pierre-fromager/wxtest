@@ -4,7 +4,11 @@ Basic ranking c++17 wxWidget App starter kit.
 
 ## Screenshots
 
-![Energy](doc/assets/img/screenshot.jpg)
+### UI
+![ui](doc/assets/img/screenshot_ui.jpg)
+
+### Log
+![log](doc/assets/img/screenshot_log.jpg)
 
 ## Components
 
