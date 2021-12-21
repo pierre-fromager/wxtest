@@ -1,6 +1,10 @@
 # WxTest
 
-Basic c++17 wxWidget App starter kit.  
+Basic ranking c++17 wxWidget App starter kit.  
+
+## Screenshots
+
+![Energy](doc/assets/img/screenshot.jpg)
 
 ## Components
 
@@ -14,11 +18,11 @@ App uses :
 * **wxCommandEvent** subclassing for custom event design (MyFooEvent).
 * **wxListCtrl** for list management with XPM icons design.
 * **wxTimer** for timestamp management.
-* Most common widgets like wxButton,wxRadio group,etc... 
+* Most common widgets like wxMenuBar,wxMenu,wxStatusBar,wxButton,wxRadio,etc... 
 
 ## Requirements
 
-### Compiler.
+### Compiler
 * g++
 
 ### wxWidget dev lib
@@ -71,7 +75,7 @@ make doc
 ### Clean doc
 
 ```
-make doc
+make cleandoc
 ```
 
 ## Code check
