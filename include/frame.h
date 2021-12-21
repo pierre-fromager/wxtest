@@ -95,8 +95,8 @@ private:
     void OnReset(wxCommandEvent &event);
     void OnExit(wxCommandEvent &event);
     void OnAbout(wxCommandEvent &event);
-    void OnPress(wxCommandEvent &event);
-    void OnFooButton(wxCommandEvent &event);
+    void OnButtonAdd(wxCommandEvent &event);
+    void OnButtonFoo(wxCommandEvent &event);
     void OnFooEvent(MyFooEvent &ev);
     void OnTimer(wxTimerEvent &evt);
     void OnItemSelect(wxListEvent &event);

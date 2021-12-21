@@ -10,8 +10,8 @@ class MyFooEvent : public wxCommandEvent
 {
 
 public:
-    MyFooEvent(wxEventType commandType, int id);
-    MyFooEvent(const MyFooEvent &event);
+    MyFooEvent(wxEventType evType, int id);
+    MyFooEvent(const MyFooEvent &ev);
     virtual wxEvent *Clone() const override;
     wxRealPoint GetPoint() const;
     void SetPoint(const wxRealPoint &rp);
@@ -20,6 +20,6 @@ private:
     wxRealPoint m_RealPoint;
 };
 
-wxDECLARE_EVENT(FOOEVENT_TYPE, MyFooEvent);
+wxDECLARE_EVENT(myEVT_FOO, MyFooEvent);
 
 #endif

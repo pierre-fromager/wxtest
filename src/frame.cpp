@@ -18,10 +18,10 @@ AppFrame::AppFrame()
     initButtonAdd();
     initButtonGenFoo();
     initTimer();
+    initSizers();
     bindMenuEvents();
     bindTimer();
     bindFooEvents();
-    initSizers();
     timestampCtrl->TimerStart();
 }
 
@@ -45,7 +45,7 @@ void AppFrame::initSizers()
 
 void AppFrame::bindFooEvents()
 {
-    Bind(FOOEVENT_TYPE, &AppFrame::OnFooEvent, this);
+    Bind(myEVT_FOO, &AppFrame::OnFooEvent, this, wxID_ANY);
 }
 
 void AppFrame::OnFooEvent(MyFooEvent &ev)
@@ -58,10 +58,10 @@ void AppFrame::OnFooEvent(MyFooEvent &ev)
         ev.GetPoint().y);
 }
 
-void AppFrame::OnFooButton(wxCommandEvent &ev)
+void AppFrame::OnButtonFoo(wxCommandEvent &ev)
 {
     wxUnusedVar(ev);
-    MyFooEvent *event = new MyFooEvent(FOOEVENT_TYPE, statusId);
+    MyFooEvent *event = new MyFooEvent(myEVT_FOO, statusId);
     wxRealPoint rp(1.01, 2.02);
     event->SetPoint(rp);
     wxQueueEvent(this, event);
@@ -117,34 +117,33 @@ void AppFrame::initPanels()
 void AppFrame::initListview()
 {
     rankListCtrl = new RankListCtrl(bottomPanel);
-    rankListCtrl->SetId(static_cast<wxWindowID>(IDs::ID_RANK_LIST));
-    Bind(
-        wxEVT_LIST_ITEM_SELECTED,
-        &AppFrame::OnItemSelect,
-        this,
-        static_cast<wxWindowID>(IDs::ID_RANK_LIST));
+    const wxWindowID &rlId = static_cast<wxWindowID>(IDs::ID_RANK_LIST);
+    rankListCtrl->SetId(rlId);
+    Bind(wxEVT_LIST_ITEM_SELECTED, &AppFrame::OnItemSelect, this, rlId);
 }
 
 void AppFrame::OnItemSelect(wxListEvent &event)
 {
     const RankItem &r = rankListCtrl->GetRank(event.GetIndex());
-#ifdef APP_FRAME_DEBUG
-    std::cout << "OnItemSelect Timestamp:" << r.timestamp << std::endl;
-#endif
+    GetLogger()->Debug(
+        "OnItemSelect index:%s | timestamp:%s | status:%s",
+        (const_cast<char *>((const char *)r.index.mb_str())),
+        (const_cast<char *>((const char *)r.timestamp.mb_str())),
+        (const_cast<char *>((const char *)r.status.mb_str())));
 }
 
 void AppFrame::initButtonAdd()
 {
     const wxWindowID &bid = static_cast<wxWindowID>(IDs::ID_BUTTON_ADD);
     buttonAdd = new wxButton(leftPanel, bid, _("&Add"));
-    Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AppFrame::OnPress, this, bid);
+    Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AppFrame::OnButtonAdd, this, bid);
 }
 
 void AppFrame::initButtonGenFoo()
 {
     const wxWindowID &bid = static_cast<wxWindowID>(IDs::ID_BUTTON_FOO);
     fooButton = new wxButton(rightPanel, bid, "GenFooEvent");
-    Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AppFrame::OnFooButton, this, bid);
+    Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AppFrame::OnButtonFoo, this, bid);
 }
 
 FileLogger *AppFrame::GetLogger()
@@ -232,7 +231,7 @@ void AppFrame::OnTimer(wxTimerEvent &event)
     timestampCtrl->SetText(timestamp);
 }
 
-void AppFrame::OnPress(wxCommandEvent &event)
+void AppFrame::OnButtonAdd(wxCommandEvent &event)
 {
     wxUnusedVar(event);
     RankItem r;

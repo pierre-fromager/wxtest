@@ -1,17 +1,15 @@
 
 #include "fooevent.h"
 
-wxDEFINE_EVENT(FOOEVENT_TYPE, MyFooEvent);
+wxDEFINE_EVENT(myEVT_FOO, MyFooEvent);
 
-MyFooEvent::MyFooEvent(wxEventType commandType = FOOEVENT_TYPE, int id = 0)
-    : wxCommandEvent(commandType, id)
-{
-}
+MyFooEvent::MyFooEvent(
+    wxEventType evType = myEVT_FOO,
+    int id = 0) : wxCommandEvent(evType, id) {}
 
-MyFooEvent::MyFooEvent(const MyFooEvent &event)
-    : wxCommandEvent(event)
+MyFooEvent::MyFooEvent(const MyFooEvent &ev) : wxCommandEvent(ev)
 {
-    this->SetPoint(event.GetPoint());
+    this->SetPoint(ev.GetPoint());
 }
 
 wxEvent *MyFooEvent::Clone() const

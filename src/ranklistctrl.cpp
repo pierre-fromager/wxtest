@@ -72,29 +72,23 @@ void RankListCtrl::OnColClick(wxListEvent &evt)
 {
     int column = evt.GetColumn();
     direction = !direction;
-    if (column < 0)
+    if (column < 0 || this->GetItemCount() < 2)
         return;
     for (int c = Column_Index; c <= Column_Status; c++)
         SetColumnImage(c, 0);
     SetColumnImage(column, (direction) ? 2 : 1);
+    const wxIntPtr dataPtr = reinterpret_cast<wxIntPtr>(&m_ranks);
     if (direction)
-
         switch (column)
         {
         case Column_Index:
-            SortItems(
-                CompareIndexAsc,
-                reinterpret_cast<wxIntPtr>(&m_ranks));
+            SortItems(CompareIndexAsc, dataPtr);
             break;
         case Column_Timestamp:
-            SortItems(
-                CompareTimestampAsc,
-                reinterpret_cast<wxIntPtr>(&m_ranks));
+            SortItems(CompareTimestampAsc, dataPtr);
             break;
         case Column_Status:
-            SortItems(
-                CompareStatusAsc,
-                reinterpret_cast<wxIntPtr>(&m_ranks));
+            SortItems(CompareStatusAsc, dataPtr);
             break;
         default:
             wxFAIL;
@@ -103,19 +97,13 @@ void RankListCtrl::OnColClick(wxListEvent &evt)
         switch (column)
         {
         case Column_Index:
-            SortItems(
-                CompareIndexDesc,
-                reinterpret_cast<wxIntPtr>(&m_ranks));
+            SortItems(CompareIndexDesc, dataPtr);
             break;
         case Column_Timestamp:
-            SortItems(
-                CompareTimestampDesc,
-                reinterpret_cast<wxIntPtr>(&m_ranks));
+            SortItems(CompareTimestampDesc, dataPtr);
             break;
         case Column_Status:
-            SortItems(
-                CompareStatusDesc,
-                reinterpret_cast<wxIntPtr>(&m_ranks));
+            SortItems(CompareStatusDesc, dataPtr);
             break;
         default:
             wxFAIL;
