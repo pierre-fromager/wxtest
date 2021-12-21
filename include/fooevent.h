@@ -1,30 +1,25 @@
 #ifndef APP_FOOEVENT_H
 #define APP_FOOEVENT_H
 
-class MyFooEvent;
-wxDEFINE_EVENT(FOOEVENT_TYPE, MyFooEvent);
-
-typedef void (wxEvtHandler::*MyFooEventFunction)(MyFooEvent &);
-#define MyFooEventHandler(func) wxEVENT_HANDLER_CAST(MyFooEventFunction, func)
+#include <wx/wxprec.h>
+#ifndef WX_PRECOMP
+#include <wx/wx.h>
+#endif
 
 class MyFooEvent : public wxCommandEvent
 {
+
 public:
-    MyFooEvent(wxEventType commandType = FOOEVENT_TYPE, int id = 0)
-        : wxCommandEvent(commandType, id) {}
-
-    // You *must* copy here the data to be transported
-    MyFooEvent(const MyFooEvent &event)
-        : wxCommandEvent(event) { this->SetPoint(event.GetPoint()); }
-
-    // Required for sending with wxPostEvent()
-    wxEvent *Clone() const { return new MyFooEvent(*this); }
-
-    wxRealPoint GetPoint() const { return m_RealPoint; }
-    void SetPoint(const wxRealPoint &rp) { m_RealPoint = rp; }
+    MyFooEvent(wxEventType commandType, int id);
+    MyFooEvent(const MyFooEvent &event);
+    virtual wxEvent *Clone() const override;
+    wxRealPoint GetPoint() const;
+    void SetPoint(const wxRealPoint &rp);
 
 private:
     wxRealPoint m_RealPoint;
 };
+
+wxDECLARE_EVENT(FOOEVENT_TYPE, MyFooEvent);
 
 #endif

@@ -12,13 +12,13 @@ AppFrame::AppFrame()
     GetLogger()->Debug(APP_LOG_MSG_FRAME_START);
     initMenus();
     initStatusBar();
-    bindMenuEvents();
     initPanels();
     initRadiosStatus();
     initListview();
     initButtonAdd();
     initButtonGenFoo();
     initTimer();
+    bindMenuEvents();
     bindTimer();
     bindFooEvents();
     initSizers();
@@ -61,10 +61,10 @@ void AppFrame::OnFooEvent(MyFooEvent &ev)
 void AppFrame::OnFooButton(wxCommandEvent &ev)
 {
     wxUnusedVar(ev);
-    MyFooEvent event(FOOEVENT_TYPE, statusId);
+    MyFooEvent *event = new MyFooEvent(FOOEVENT_TYPE, statusId);
     wxRealPoint rp(1.01, 2.02);
-    event.SetPoint(rp);
-    wxPostEvent(this, event);
+    event->SetPoint(rp);
+    wxQueueEvent(this, event);
 }
 
 void AppFrame::initRadiosStatus()
