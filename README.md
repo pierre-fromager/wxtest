@@ -1,6 +1,7 @@
 # WxTest
 
 Basic ranking c++17 wxWidget App starter kit.  
+[wxWidget](https://www.wxwidgets.org/) GUI lib is cross-platform compliant.
 
 ## Screenshots
 
@@ -75,6 +76,7 @@ make clean
 ```
 make doc
 ```
+Doc will be generated in doc/html folder.
 
 ### Clean doc
 
@@ -91,3 +93,8 @@ make check
 ## Test
 
 * WIP but may be through boost tests.
+
+## Links
+
+* Official [wxWidget doc](https://docs.wxwidgets.org/3.0/)
+* For Microsoft users, [setup vscode](https://stackoverflow.com/questions/30269449/how-do-i-set-up-visual-studio-code-to-compile-c-code) for cpp project.
