@@ -9,6 +9,7 @@ AppFrame::AppFrame()
           wxDefaultPosition,
           wxSize(640, 480))
 {
+    SetIcon(asset_frame_icon);
     GetLogger()->Debug(APP_LOG_MSG_FRAME_START);
     initMenus();
     initStatusBar();

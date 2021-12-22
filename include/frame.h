@@ -8,7 +8,7 @@
 #endif
 
 #include "fooevent.h"
-
+#include "frame_icon_xpm.h"
 #include <wx/splitter.h>
 #include <wx/datetime.h>
 #include <wx/intl.h>
