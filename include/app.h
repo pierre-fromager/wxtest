@@ -1,6 +1,7 @@
 #ifndef APP_MAIN_H
 #define APP_MAIN_H
 
+#include "mymqtt.h"
 #include "filelogger.h"
 
 #define APP_NAME "WxTest"
@@ -15,6 +16,7 @@ public:
 
 private:
     FileLogger *m_logger;
+    myMqtt *m_mqtt;
 };
 
 wxDECLARE_APP(App);

@@ -14,8 +14,8 @@ myMqtt::myMqtt(
                 m_port(port)
 {
     mosqpp::lib_init();
-    connect_async(m_host.c_str(), m_port, m_keepalive);
-    loop_start();
+    mosqpp::mosquittopp::connect_async(m_host.c_str(), m_port, m_keepalive);
+    mosqpp::mosquittopp::loop_start();
 }
 
 myMqtt::myMqtt(
@@ -37,24 +37,24 @@ myMqtt::myMqtt(
 {
     mosqpp::lib_init();
     mosquittopp::username_pw_set(m_username.c_str(), m_password.c_str());
-    connect_async(m_host.c_str(), m_port, m_keepalive);
-    loop_start();
+    mosqpp::mosquittopp::connect_async(m_host.c_str(), m_port, m_keepalive);
+    mosqpp::mosquittopp::loop_start();
 }
 
 myMqtt::~myMqtt()
 {
-    disconnect();
-    loop_stop();
+    mosqpp::mosquittopp::disconnect();
+    mosqpp::mosquittopp::loop_stop();
     mosqpp::lib_cleanup();
 }
 
-bool myMqtt::publish(string message)
+bool myMqtt::publish(string msg)
 {
-    int answer = mosqpp::mosquittopp::publish(
+    const int &answer = mosqpp::mosquittopp::publish(
         nullptr,
         m_publish_topic.c_str(),
-        message.length(),
-        message.c_str(),
+        msg.length(),
+        msg.c_str(),
         m_qos,
         m_retain);
     return (answer == MOSQ_ERR_SUCCESS);
@@ -67,7 +67,7 @@ bool myMqtt::subscribe()
     unsigned int i;
     for (i = 0; i < numberOfTopics; i++)
     {
-        int answer = mosquittopp::subscribe(nullptr, m_subscribed_topics[i].c_str());
+        int answer = mosqpp::mosquittopp::subscribe(nullptr, m_subscribed_topics[i].c_str());
         if (answer != MOSQ_ERR_SUCCESS)
         {
             success = false;
@@ -85,7 +85,7 @@ bool myMqtt::unsubscribe(string topic)
     {
         if (topic.compare(m_subscribed_topics[i].c_str()) == 0)
         {
-            int answer = mosquittopp::unsubscribe(nullptr, topic);
+            int answer = mosqpp::mosquittopp::unsubscribe(nullptr, topic.c_str());
             if (answer != MOSQ_ERR_SUCCESS)
             {
                 success = false;
