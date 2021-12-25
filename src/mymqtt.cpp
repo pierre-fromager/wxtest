@@ -76,9 +76,28 @@ bool myMqtt::subscribe()
     return success;
 }
 
+bool myMqtt::unsubscribe(string topic)
+{
+    bool success = true;
+    const unsigned int &numberOfTopics = m_subscribed_topics.size();
+    unsigned int i;
+    for (i = 0; i < numberOfTopics; i++)
+    {
+        if (topic.compare(m_subscribed_topics[i].c_str()) == 0)
+        {
+            int answer = mosquittopp::unsubscribe(nullptr, topic);
+            if (answer != MOSQ_ERR_SUCCESS)
+            {
+                success = false;
+            }
+        }
+    }
+    return success;
+}
+
 void myMqtt::on_subscribe(int mid, int qos_count, const int *granted_qos)
 {
-    cout << "Subscription succeeded." << endl;
+    cout << "Subscribed success." << endl;
 }
 
 void myMqtt::on_message(const struct mosquitto_message *message)
@@ -91,7 +110,7 @@ void myMqtt::on_message(const struct mosquitto_message *message)
 
 void myMqtt::on_disconnect(int rc)
 {
-    cout << "disconnection(" << rc << ")" << endl;
+    cout << "disconnected(" << rc << ")" << endl;
 }
 
 void myMqtt::on_connect(int rc)
@@ -103,4 +122,19 @@ void myMqtt::on_connect(int rc)
 void myMqtt::on_publish(int mid)
 {
     cout << "Message (" << mid << ") succeed to be published " << endl;
+}
+
+void myMqtt::on_unsubscribe(int mid)
+{
+    cout << "Unsubscribed success." << endl;
+}
+
+void myMqtt::on_log(int level, const char *str)
+{
+    cout << "log(" << level << "):" << str << endl;
+}
+
+void myMqtt::on_error()
+{
+    cout << "Error happened" << endl;
 }
