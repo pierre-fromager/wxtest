@@ -10,6 +10,9 @@
 
 using namespace std;
 
+#define MYMQTT_PINGRESP "PINGRESP"
+#define MYMQTT_PINGREQ "PINGREQ"
+
 /**
  * @brief myMqtt client
  * @url https://github.com/mec-kon/simple-mqtt-client

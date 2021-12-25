@@ -131,7 +131,11 @@ void myMqtt::on_unsubscribe(int mid)
 
 void myMqtt::on_log(int level, const char *str)
 {
-    cout << "log(" << level << "):" << str << endl;
+    const bool isPingReq = strcmp(str, MYMQTT_PINGREQ);
+    const bool isPingRes = strcmp(str, MYMQTT_PINGRESP);
+    const bool isPing = (isPingReq || isPingRes);
+    if (!isPing)
+        cout << "log(" << level << "):" << str << endl;
 }
 
 void myMqtt::on_error()
