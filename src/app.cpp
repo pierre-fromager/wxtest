@@ -9,17 +9,15 @@ bool App::OnInit()
 {
     m_logger = new FileLogger(APP_LOG_FILENAME);
     m_logger->SetLevel(static_cast<logger_level_t>(FileLogger::Levels::Debug));
-    const std::string pseudo = "pierre";
-    const std::string lpasswd = "pierre";
-    std::vector<std::string> topics = {"wxwidget/app/#"};
+    std::vector<std::string> topics = {APP_MQTT_DEFAULT_TOPICS_SUB};
     m_mqtt = new myMqtt(
-        pseudo,
-        "wxwidget/app",
+        APP_MQTT_DEFAULT_MID,
+        APP_MQTT_DEFAULT_TOPICS_PUB,
         topics,
-        "192.168.3.60",
-        1883,
-        lpasswd,
-        lpasswd);
+        APP_MQTT_DEFAULT_HOST,
+        APP_MQTT_DEFAULT_PORT,
+        APP_MQTT_DEFAULT_LOGIN,
+        APP_MQTT_DEFAULT_PASSWD);
     m_mqtt->subscribe();
     SetAppName(APP_NAME);
     SetAppDisplayName(APP_NAME);
