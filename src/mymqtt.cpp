@@ -48,7 +48,7 @@ myMqtt::~myMqtt()
     mosqpp::lib_cleanup();
 }
 
-void myMqtt::changePublishTopic(string topic)
+void myMqtt::setPublishTopic(string topic)
 {
     m_publish_topic = topic;
 }

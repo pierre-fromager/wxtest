@@ -2,6 +2,7 @@
 
 Basic ranking c++17 wxWidget App starter kit.  
 [wxWidget](https://www.wxwidgets.org/) GUI lib is cross-platform compliant.
+This branch(mqtt) let app to pubsub through mqtt, up to you to subscribe and bind.  
 
 ## Screenshots
 
@@ -30,7 +31,7 @@ App uses :
 ### Compiler
 * g++
 
-### wxWidget dev lib
+### wxWidget
 wWidget dev library (3.0) and above.
 * Check installed version on debian.
 
@@ -48,6 +49,13 @@ apt-cache search 'wxWidget' | grep dev
 
 ```
 sudo apt-get install libwxbase3.0-dev libwxgtk-media3.0-dev libwxgtk3.0-dev  
+```
+
+### Mqtt
+
+Mosquito lib mosquittopp c++ wrapper is required.
+```
+sudo apt-get install mosquitto-dev libmosquitto-dev libmosquittopp-dev
 ```
 
 ### Doxygen 

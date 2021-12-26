@@ -249,7 +249,7 @@ void AppFrame::OnButtonAdd(wxCommandEvent &event)
 void AppFrame::OnStatusChange(wxCommandEvent &event)
 {
     statusId = (event.GetId() - static_cast<wxWindowID>(IDs::ID_RAD_BAD)) + 1;
-    GetMqtt()->changePublishTopic("wxwidget/app/state/statusid");
+    GetMqtt()->setPublishTopic("wxwidget/app/state/statusid");
     GetMqtt()->publish(std::to_string(statusId));
     GetLogger()->Debug("%s statusId:%d", __PRETTY_FUNCTION__, statusId);
 }

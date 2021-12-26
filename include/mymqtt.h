@@ -37,7 +37,7 @@ public:
         string username,
         string password);
     ~myMqtt();
-    void changePublishTopic(string topic);
+    void setPublishTopic(string topic);
     bool publish(string message);
     bool subscribe();
     bool unsubscribe(string topic);
