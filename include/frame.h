@@ -32,6 +32,8 @@ class AppFrame : public wxFrame
 {
 public:
     AppFrame();
+    myMqtt *GetMqtt();
+    FileLogger *GetLogger();
 
 private:
     // ctrl ids
@@ -77,7 +79,7 @@ private:
     // internals
     int statusId = 1;
     // voids
-    FileLogger *GetLogger();
+    
     void initMenus();
     void initMenuFile();
     void initMenuHelp();
