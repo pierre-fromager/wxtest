@@ -12,10 +12,11 @@ using namespace std;
 
 #define MYMQTT_PINGRESP "PINGRESP"
 #define MYMQTT_PINGREQ "PINGREQ"
+#define MYMQTT_KEEPALIVE 60
+#define MYMQTT_QOS 0
 
 /**
  * @brief myMqtt client
- * @url https://github.com/mec-kon/simple-mqtt-client
  * 
  */
 class myMqtt : public mosqpp::mosquittopp
@@ -50,8 +51,8 @@ private:
     int m_port;
     string m_username;
     string m_password;
-    const int m_keepalive = 60;
-    const int m_qos = 0;
+    const int m_keepalive = MYMQTT_KEEPALIVE;
+    const int m_qos = MYMQTT_QOS;
     const bool m_retain = false;
     void on_connect(int rc);
     void on_disconnect(int rc);

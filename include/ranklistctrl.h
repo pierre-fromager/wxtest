@@ -17,6 +17,7 @@
 #define RANK_COL_LABEL_INDEX "Index"
 #define RANK_COL_LABEL_TIMESTAMP "Timestamp"
 #define RANK_COL_LABEL_STATUS "Status"
+#define RANK_MQTT_TOPIC_PUBLISH_ITEM "wxwidget/app/state/item"
 
 struct RankItem
 {

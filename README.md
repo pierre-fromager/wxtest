@@ -1,8 +1,8 @@
 # WxTest
 
 Basic ranking c++17 wxWidget App starter kit.  
-[wxWidget](https://www.wxwidgets.org/) GUI lib is cross-platform compliant.
-This branch(mqtt) let app to pubsub through mqtt, up to you to subscribe and bind.  
+[wxWidget](https://www.wxwidgets.org/) GUI lib is cross-platform compliant.  
+This branch(mqtt) let app to pubsub through mqtt, up to you to change topics according to your requirements.  
 
 ## Screenshots
 
@@ -53,10 +53,17 @@ sudo apt-get install libwxbase3.0-dev libwxgtk-media3.0-dev libwxgtk3.0-dev
 
 ### Mqtt
 
-Mosquito lib mosquittopp c++ wrapper is required.
+Mosquitto dev lib (mosquittopp) c++ wrapper is required.
+
 ```
 sudo apt-get install mosquitto-dev libmosquitto-dev libmosquittopp-dev
 ```
+
+Thus, a mqtt data broker([mosquitto](https://mosquitto.org)) is required, change mqtt config in [App](src/app.cpp) according to your infrastructure.  
+Keep in mind mqtt mid(pseudo) should be unique (one by App instance) otherwise side effects (connect/disconnect) will occur.  
+For improvement if you decide your app to be remote controlled through mqtt, I would advise to design a new custom event (see [FooEvent](include/fooevent.h) class).  
+For instance consider RControlEvent to match your required features then bind controls to this kind of event.   
+In that way we keep loose coupling between mqtt and various controls, this also implies to refacto myMqtt class to emit RControlEvent on bus.
 
 ### Doxygen 
 * doc generator.

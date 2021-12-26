@@ -35,7 +35,7 @@ void RankListCtrl::AddRank(RankItem r)
     SetItem(result, Column_Status, r.status);
     SetItemData(result, (long)rankIndex);
     m_ranks.push_back(r);
-    wxGetApp().GetMqtt()->setPublishTopic("wxwidget/app/state/item");
+    wxGetApp().GetMqtt()->setPublishTopic(RANK_MQTT_TOPIC_PUBLISH_ITEM);
     const wxString &pubitem = r.index + ";" + r.timestamp + ";" + r.status;
     const std::string mqttPayload = std::string(pubitem.mb_str());
     wxGetApp().GetMqtt()->publish(mqttPayload);

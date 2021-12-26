@@ -27,6 +27,8 @@
 #define APP_FRAME_ABOUT_MSGBOX_CONTENT "WQS - Wx Quick Starter\nv0.1"
 #define APP_FRAME_HELLO_LOGMSG "Hello my friend!"
 #define APP_FRAME_TIMER_DELTA 1000
+#define APP_FRAME_MQTT_TOPIC_PUBLISH_STATUS "wxwidget/app/state/statusid"
+
 
 class AppFrame : public wxFrame
 {
