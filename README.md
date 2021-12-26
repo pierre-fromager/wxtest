@@ -59,7 +59,7 @@ Mosquitto dev lib (mosquittopp) c++ wrapper is required.
 sudo apt-get install mosquitto-dev libmosquitto-dev libmosquittopp-dev
 ```
 
-Thus, a mqtt data broker([mosquitto](https://mosquitto.org)) is required, change mqtt config in [App](include/app.h) according to your infrastructure.  
+Thus, a mqtt data broker([Mosquitto](https://mosquitto.org)) is required, change mqtt config in [App](include/app.h) according to your infrastructure.  
 If you are not using credentials to broker remove them from myMqtt ctor initialization.  
 Keep in mind mqtt mid(pseudo) should be unique (one by App instance) otherwise side effects (connect/disconnect) will occur.  
 For improvement if you decide your app to be remote controlled through mqtt, I would advise to design a new custom event (see [FooEvent](include/fooevent.h) class).  
@@ -73,7 +73,7 @@ In that way we keep loose coupling between mqtt and various controls, this also 
 
 #### Default sub topic :
 
-* "wxwidget/app/#"
+* APP_MQTT_DEFAULT_TOPICS_SUB "wxwidget/app/#"
 
 ### Doxygen 
 * doc generator.
@@ -121,5 +121,7 @@ make check
 
 ## Links
 
-* Official [wxWidget doc](https://docs.wxwidgets.org/3.0/)
+* [wxWidget](https://docs.wxwidgets.org/3.0/) doc.
 * For Microsoft users, [setup vscode](https://stackoverflow.com/questions/30269449/how-do-i-set-up-visual-studio-code-to-compile-c-code) for cpp project.
+* [Mosquitto](https://mosquitto.org/) official.
+* [Mqtt](https://www.hivemq.com/blog/mqtt-essentials-part-5-mqtt-topics-best-practices/) best practices.
