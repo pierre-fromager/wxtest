@@ -20,7 +20,7 @@ bool App::OnInit()
         1883,
         lpasswd,
         lpasswd);
-    m_mqtt->subscribe();    
+    m_mqtt->subscribe();
     SetAppName(APP_NAME);
     SetAppDisplayName(APP_NAME);
     AppFrame *appFrame = new AppFrame();
@@ -38,4 +38,9 @@ App::~App()
 FileLogger *App::GetLogger()
 {
     return m_logger;
+}
+
+myMqtt *App::GetMqtt()
+{
+    return m_mqtt;
 }

@@ -48,6 +48,11 @@ myMqtt::~myMqtt()
     mosqpp::lib_cleanup();
 }
 
+void myMqtt::changePublishTopic(string topic)
+{
+    m_publish_topic = topic;
+}
+
 bool myMqtt::publish(string msg)
 {
     const int &answer = mosqpp::mosquittopp::publish(

@@ -13,6 +13,7 @@ public:
     virtual ~App();
     virtual bool OnInit();
     FileLogger *GetLogger();
+    myMqtt *GetMqtt();
 
 private:
     FileLogger *m_logger;
