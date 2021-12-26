@@ -1,4 +1,4 @@
-# WxTest
+# WxTest Mqtt
 
 Basic ranking c++17 wxWidget App starter kit.  
 [wxWidget](https://www.wxwidgets.org/) GUI lib is cross-platform compliant.  
@@ -117,7 +117,9 @@ make check
 
 ## Test
 
-* WIP but may be through boost tests.
+* Testing UI is evil because most of members and props are privates.
+* Separate logic from UI is recommended to achieve this.
+* May be using [boost test lib](https://www.boost.org/doc/libs/1_52_0/libs/test/doc/html/index.html) let you doing so.
 
 ## Links
 
