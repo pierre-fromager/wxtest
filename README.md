@@ -1,7 +1,8 @@
 # WxTest
 
 Basic ranking c++17 wxWidget App starter kit.  
-[wxWidget](https://www.wxwidgets.org/) GUI lib is cross-platform compliant.
+[wxWidget](https://www.wxwidgets.org/) GUI lib is cross-platform compliant.  
+To go further, if you want to play with mqtt, checkout mqtt branch.  
 
 ## Screenshots
 
