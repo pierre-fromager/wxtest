@@ -53,27 +53,26 @@ sudo apt-get install libwxbase3.0-dev libwxgtk-media3.0-dev libwxgtk3.0-dev
 
 ### Mqtt
 
+#### Requirements
+
 Mosquitto dev lib (mosquittopp) c++ wrapper is required.
 
 ```
 sudo apt-get install mosquitto-dev libmosquitto-dev libmosquittopp-dev
 ```
 
-Thus, a mqtt data broker([Mosquitto](https://mosquitto.org)) is required, change mqtt config in [App](include/app.h) according to your infrastructure.  
+Thus, a mqtt data broker([Mosquitto](https://mosquitto.org)) is required, change mqtt config in [Mqtt config broker](include/mqttbroker.h) according to your need.  
 If you are not using credentials to broker remove them from myMqtt ctor initialization.  
 Keep in mind mqtt mid(pseudo) should be unique (one by App instance) otherwise side effects (connect/disconnect) will occur.  
-For improvement if you decide your app to be remote controlled through mqtt, I would advise to design a new custom event (see [FooEvent](include/fooevent.h) class).  
-For instance consider RControlEvent to match your required features then bind controls to this kind of event.   
-In that way we keep loose coupling between mqtt and various controls, this also implies to refacto myMqtt class to emit RControlEvent on bus.
+Relevant broker definitions can be found [there](include/mqttbroker.h).    
+Mqtt(myMqtt) main class can be found [there](include/mymqtt.h) instanciated by App.  
+When mqtt subscription event is triggered we generate a [**MyMqttEvent**](include/mqttevent.h) event sending both topic and payload to the frame.  
+We listen to event from frame (topic related) then we apply feature to the matching topic.  
+So we keep loose coupling app, mqtt and frame.
 
-#### Pub topics :
+#### Topics
 
-* RANK_MQTT_TOPIC_PUBLISH_ITEM "wxwidget/app/state/item"
-* APP_FRAME_MQTT_TOPIC_PUBLISH_STATUS "wxwidget/app/state/statusid"
-
-#### Default sub topic :
-
-* APP_MQTT_DEFAULT_TOPICS_SUB "wxwidget/app/#"
+(PUB/SUB) : in [topics](./include/mqtttopics.h) definition.  
 
 ### Doxygen 
 * doc generator.
