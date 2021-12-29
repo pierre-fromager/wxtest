@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 #include <mosquittopp.h>
+#include <mqttevent.h>
 
 using namespace std;
 
@@ -42,8 +43,10 @@ public:
     bool publish(string message);
     bool subscribe();
     bool unsubscribe(string topic);
+    void setEventHanlder(wxEvtHandler *evthandler);
 
 private:
+    wxEvtHandler *m_evthandler;
     string m_id;
     string m_publish_topic;
     vector<string> m_subscribed_topics;

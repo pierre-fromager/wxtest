@@ -105,12 +105,21 @@ void myMqtt::on_subscribe(int mid, int qos_count, const int *granted_qos)
     cout << "Subscribed success." << endl;
 }
 
+void myMqtt::setEventHanlder(wxEvtHandler *evthandler)
+{
+    m_evthandler = evthandler;
+}
+
 void myMqtt::on_message(const struct mosquitto_message *message)
 {
     string payload = string(static_cast<char *>(message->payload));
     string topic = string(message->topic);
-    cout << "payload: " << payload << endl;
-    cout << "topic: " << topic << endl;
+    //cout << "payload: " << payload << endl;
+    //cout << "topic: " << topic << endl;
+    MyMqttEvent *m_mqttevt = new MyMqttEvent(myEVT_MQTT, 0);
+    m_mqttevt->SetTopic(topic);
+    m_mqttevt->SetPayload(payload);
+    wxQueueEvent(m_evthandler, m_mqttevt);
 }
 
 void myMqtt::on_disconnect(int rc)

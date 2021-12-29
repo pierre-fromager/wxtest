@@ -17,12 +17,11 @@ AppFrame::AppFrame()
     initRadiosStatus();
     initListview();
     initButtonAdd();
-    initButtonGenFoo();
     initTimer();
     initSizers();
     bindMenuEvents();
     bindTimer();
-    bindFooEvents();
+    bindMqttEvents();
     timestampCtrl->TimerStart();
 }
 
@@ -39,33 +38,9 @@ void AppFrame::initSizers()
     vboxBottom = new wxBoxSizer(wxVERTICAL);
     vboxBottom->Add(rankListCtrl, 1, LeftProportion, 3);
     bottomPanel->SetSizer(vboxBottom);
-    hboxRight = new wxBoxSizer(wxHORIZONTAL);
+    /*hboxRight = new wxBoxSizer(wxHORIZONTAL);
     hboxRight->Add(fooButton, 0, wxEXPAND | wxTOP | wxBOTTOM, 1);
-    rightPanel->SetSizer(hboxRight);
-}
-
-void AppFrame::bindFooEvents()
-{
-    Bind(myEVT_FOO, &AppFrame::OnFooEvent, this, wxID_ANY);
-}
-
-void AppFrame::OnFooEvent(MyFooEvent &ev)
-{
-    GetLogger()->Debug(
-        "%s id=%d x=%f y=%f",
-        __PRETTY_FUNCTION__,
-        ev.GetId(),
-        ev.GetPoint().x,
-        ev.GetPoint().y);
-}
-
-void AppFrame::OnButtonFoo(wxCommandEvent &ev)
-{
-    wxUnusedVar(ev);
-    MyFooEvent *event = new MyFooEvent(myEVT_FOO, statusId);
-    wxRealPoint rp(1.01, 2.02);
-    event->SetPoint(rp);
-    wxQueueEvent(this, event);
+    rightPanel->SetSizer(hboxRight);*/
 }
 
 void AppFrame::initRadiosStatus()
@@ -140,13 +115,6 @@ void AppFrame::initButtonAdd()
     Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AppFrame::OnButtonAdd, this, bid);
 }
 
-void AppFrame::initButtonGenFoo()
-{
-    const wxWindowID &bid = static_cast<wxWindowID>(IDs::ID_BUTTON_FOO);
-    fooButton = new wxButton(rightPanel, bid, "GenFooEvent");
-    Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AppFrame::OnButtonFoo, this, bid);
-}
-
 FileLogger *AppFrame::GetLogger()
 {
     return wxGetApp().GetLogger();
@@ -206,7 +174,16 @@ void AppFrame::initTimer()
 
 void AppFrame::bindTimer()
 {
-    timestampCtrl->Bind(wxEVT_TIMER, &AppFrame::OnTimer, this, timestampCtrl->GetTimerId());
+    timestampCtrl->Bind(
+        wxEVT_TIMER,
+        &AppFrame::OnTimer,
+        this,
+        timestampCtrl->GetTimerId());
+}
+
+void AppFrame::bindMqttEvents()
+{
+    Bind(myEVT_MQTT, &AppFrame::OnMqttEvent, this, wxID_ANY);
 }
 
 void AppFrame::OnExit(wxCommandEvent &event)
@@ -248,8 +225,32 @@ void AppFrame::OnButtonAdd(wxCommandEvent &event)
 
 void AppFrame::OnStatusChange(wxCommandEvent &event)
 {
+    wxRadioButton *radio = static_cast<wxRadioButton *>(FindWindowById(event.GetId()));
+    radio->SetValue(true);
     statusId = (event.GetId() - static_cast<wxWindowID>(IDs::ID_RAD_BAD)) + 1;
     GetMqtt()->setPublishTopic(APP_FRAME_MQTT_TOPIC_PUBLISH_STATUS);
     GetMqtt()->publish(std::to_string(statusId));
     GetLogger()->Debug("%s statusId:%d", __PRETTY_FUNCTION__, statusId);
+}
+
+void AppFrame::OnMqttEvent(MyMqttEvent &ev)
+{
+    GetLogger()->Debug(
+        "%s id=%d topic=%s payload=%s",
+        __PRETTY_FUNCTION__,
+        ev.GetId(),
+        (const_cast<char *>((const char *)ev.GetTopic().c_str())),
+        (const_cast<char *>((const char *)ev.GetPayload().c_str())));
+
+    if (ev.GetTopic().compare(APP_FRAME_MQTT_TOPIC_CONTROL_STATUS) == 0)
+    {
+        const int radioOffset = std::stoi(ev.GetPayload()) - 1;
+        if (radioOffset >= 0 && radioOffset < 3)
+        {
+            wxCommandEvent event(
+                wxEVT_COMMAND_RADIOBUTTON_SELECTED,
+                static_cast<wxWindowID>(IDs::ID_RAD_BAD) + radioOffset);
+            ProcessWindowEvent(event);
+        }
+    }
 }

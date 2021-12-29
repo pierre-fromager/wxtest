@@ -9,21 +9,23 @@ bool App::OnInit()
 {
     m_logger = new FileLogger(APP_LOG_FILENAME);
     m_logger->SetLevel(static_cast<logger_level_t>(FileLogger::Levels::Debug));
-    std::vector<std::string> topics = {APP_MQTT_DEFAULT_TOPICS_SUB};
-    m_mqtt = new myMqtt(
-        APP_MQTT_DEFAULT_MID,
-        APP_MQTT_DEFAULT_TOPICS_PUB,
-        topics,
-        APP_MQTT_DEFAULT_HOST,
-        APP_MQTT_DEFAULT_PORT,
-        APP_MQTT_DEFAULT_LOGIN,
-        APP_MQTT_DEFAULT_PASSWD);
-    m_mqtt->subscribe();
     SetAppName(APP_NAME);
     SetAppDisplayName(APP_NAME);
     AppFrame *appFrame = new AppFrame();
     SetTopWindow(appFrame);
     appFrame->Show(true);
+    std::vector<std::string> subscr_topics = {APP_MQTT_DEFAULT_TOPICS_SUB};
+    m_mqtt = new myMqtt(
+        APP_MQTT_DEFAULT_MID,
+        APP_MQTT_DEFAULT_TOPICS_PUB,
+        subscr_topics,
+        APP_MQTT_DEFAULT_HOST,
+        APP_MQTT_DEFAULT_PORT,
+        APP_MQTT_DEFAULT_LOGIN,
+        APP_MQTT_DEFAULT_PASSWD);
+    //wxEvtHandler *evthandler = appFrame->GetEventHandler();    
+    m_mqtt->setEventHanlder(appFrame->GetEventHandler());
+    m_mqtt->subscribe();
     return true;
 }
 
