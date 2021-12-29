@@ -203,6 +203,9 @@ void AppFrame::OnAbout(wxCommandEvent &event)
 void AppFrame::OnReset(wxCommandEvent &event)
 {
     rankListCtrl->Reset();
+    GetMqtt()->setPublishTopic(MQTT_TOPIC_PUBLISH_RESET);
+    GetMqtt()->publish("1");
+    GetMqtt()->publish("0");
 }
 
 void AppFrame::OnTimer(wxTimerEvent &event)
@@ -228,7 +231,7 @@ void AppFrame::OnStatusChange(wxCommandEvent &event)
     wxRadioButton *radio = static_cast<wxRadioButton *>(FindWindowById(event.GetId()));
     radio->SetValue(true);
     statusId = (event.GetId() - static_cast<wxWindowID>(IDs::ID_RAD_BAD)) + 1;
-    GetMqtt()->setPublishTopic(APP_FRAME_MQTT_TOPIC_PUBLISH_STATUS);
+    GetMqtt()->setPublishTopic(MQTT_TOPIC_PUBLISH_STATUS);
     GetMqtt()->publish(std::to_string(statusId));
     GetLogger()->Debug("%s statusId:%d", __PRETTY_FUNCTION__, statusId);
 }
@@ -242,7 +245,7 @@ void AppFrame::OnMqttEvent(MyMqttEvent &ev)
         (const_cast<char *>((const char *)ev.GetTopic().c_str())),
         (const_cast<char *>((const char *)ev.GetPayload().c_str())));
 
-    if (ev.GetTopic().compare(APP_FRAME_MQTT_TOPIC_CONTROL_STATUS) == 0)
+    if (ev.GetTopic().compare(MQTT_TOPIC_CONTROL_STATUS) == 0)
     {
         const int radioOffset = std::stoi(ev.GetPayload()) - 1;
         if (radioOffset >= 0 && radioOffset < 3)

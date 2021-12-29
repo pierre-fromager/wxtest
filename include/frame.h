@@ -7,6 +7,7 @@
 #include <wx/wx.h>
 #endif
 
+#include "mqtttopics.h"
 #include "frame_icon_xpm.h"
 #include <wx/splitter.h>
 #include <wx/datetime.h>
@@ -26,8 +27,6 @@
 #define APP_FRAME_ABOUT_MSGBOX_CONTENT "WQS - Wx Quick Starter\nv0.1"
 #define APP_FRAME_HELLO_LOGMSG "Hello my friend!"
 #define APP_FRAME_TIMER_DELTA 1000
-#define APP_FRAME_MQTT_TOPIC_PUBLISH_STATUS "wxwidget/app/state/statusid"
-#define APP_FRAME_MQTT_TOPIC_CONTROL_STATUS "wxwidget/app/control/state/statusid"
 
 class AppFrame : public wxFrame
 {
@@ -78,7 +77,6 @@ private:
     // internals
     int statusId = 1;
     // voids
-
     void initMenus();
     void initMenuFile();
     void initMenuHelp();

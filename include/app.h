@@ -1,3 +1,4 @@
+
 #ifndef APP_MAIN_H
 #define APP_MAIN_H
 
@@ -6,13 +7,6 @@
 
 #define APP_NAME "WxTest"
 #define APP_LOG_FILENAME "log.txt"
-#define APP_MQTT_DEFAULT_MID "pierre"
-#define APP_MQTT_DEFAULT_HOST "192.168.3.60"
-#define APP_MQTT_DEFAULT_PORT 1883
-#define APP_MQTT_DEFAULT_LOGIN "pierre"
-#define APP_MQTT_DEFAULT_PASSWD "pierre"
-#define APP_MQTT_DEFAULT_TOPICS_SUB "wxwidget/app/control/#"
-#define APP_MQTT_DEFAULT_TOPICS_PUB "wxwidget/app"
 
 class App : public wxApp
 {

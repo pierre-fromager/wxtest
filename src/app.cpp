@@ -1,5 +1,6 @@
 
-
+#include "mqttbroker.h"
+#include "mqtttopics.h"
 #include "frame.h"
 #include "app.h"
 
@@ -14,16 +15,15 @@ bool App::OnInit()
     AppFrame *appFrame = new AppFrame();
     SetTopWindow(appFrame);
     appFrame->Show(true);
-    std::vector<std::string> subscr_topics = {APP_MQTT_DEFAULT_TOPICS_SUB};
+    std::vector<std::string> subscr_topics = {MQTT_TOPIC_DEFAULT_SUB};
     m_mqtt = new myMqtt(
-        APP_MQTT_DEFAULT_MID,
-        APP_MQTT_DEFAULT_TOPICS_PUB,
+        MQTT_BROKER_MID,
+        MQTT_TOPIC_DEFAULT_PUB,
         subscr_topics,
-        APP_MQTT_DEFAULT_HOST,
-        APP_MQTT_DEFAULT_PORT,
-        APP_MQTT_DEFAULT_LOGIN,
-        APP_MQTT_DEFAULT_PASSWD);
-    //wxEvtHandler *evthandler = appFrame->GetEventHandler();    
+        MQTT_BROKER_HOST,
+        MQTT_BROKER_PORT,
+        MQTT_BROKER_LOGIN,
+        MQTT_BROKER_PASSWD);
     m_mqtt->setEventHanlder(appFrame->GetEventHandler());
     m_mqtt->subscribe();
     return true;

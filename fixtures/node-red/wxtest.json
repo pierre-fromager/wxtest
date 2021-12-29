@@ -1,0 +1,488 @@
+[
+    {
+        "id": "mqtt-topic-filter",
+        "type": "subflow",
+        "name": "topic filter",
+        "info": "## MQTT Topic filter",
+        "category": "function",
+        "in": [
+            {
+                "x": 68,
+                "y": 80,
+                "wires": [
+                    {
+                        "id": "c7fc11c3.07902"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 340,
+                "y": 48,
+                "wires": [
+                    {
+                        "id": "c7fc11c3.07902",
+                        "port": 0
+                    }
+                ]
+            },
+            {
+                "x": 340,
+                "y": 96,
+                "wires": [
+                    {
+                        "id": "c7fc11c3.07902",
+                        "port": 1
+                    }
+                ]
+            }
+        ],
+        "env": [
+            {
+                "name": "filter",
+                "type": "str",
+                "value": "",
+                "ui": {
+                    "label": {
+                        "en-US": "Topic filter"
+                    },
+                    "type": "input",
+                    "opts": {
+                        "types": [
+                            "str"
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "status",
+                "type": "bool",
+                "value": "true",
+                "ui": {
+                    "label": {
+                        "en-US": "Show topic"
+                    },
+                    "type": "input",
+                    "opts": {
+                        "types": [
+                            "bool"
+                        ]
+                    }
+                }
+            }
+        ],
+        "meta": {
+            "type": "mqtt-topic-filter",
+            "version": "1.0.0",
+            "author": "steve-mcl",
+            "desc": "A node to filter MQTT topics",
+            "keywords": "mqtt",
+            "license": "MIT"
+        },
+        "color": "#D8BFD8",
+        "outputLabels": [
+            "Match",
+            "No Match"
+        ],
+        "icon": "font-awesome/fa-filter",
+        "status": {
+            "x": 548,
+            "y": 160,
+            "wires": [
+                {
+                    "id": "519579c5.dfaec8",
+                    "port": 0
+                },
+                {
+                    "id": "4ce4687e.e359a8",
+                    "port": 0
+                }
+            ]
+        }
+    },
+    {
+        "id": "c7fc11c3.07902",
+        "type": "function",
+        "z": "mqtt-topic-filter",
+        "name": "filter",
+        "func": "var a = msg.topic;\nvar b = env.get(\"filter\") || '#';\n\nif(a===b) { return [msg, null]; }\nif(b==='#') { \n    if(a) return [msg, null]; //if topic is something, OK\n    return [null, msg];//otherwise, fail!\n}\nvar nameSegments = a.split('/');\nvar filterSegments = b.split('/');\nfor (var i = 0; i < filterSegments.length; i++) {\n    var topicSegment = nameSegments[i];\n    var patternSegment = filterSegments[i];\n    var match = false;\n    if(topicSegment === patternSegment) { match = true; }\n    if(patternSegment === '+') { match = true; }\n    if(patternSegment === '#') {  return [msg, null]; }\n    if(match === false) { return [null, msg]; }\n}\nif(nameSegments.length !== filterSegments.length) { return [null, msg]; }\n\nreturn [msg, null];\n",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 192,
+        "y": 80,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "c52c30b1.8341",
+        "type": "inject",
+        "z": "mqtt-topic-filter",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 148,
+        "y": 160,
+        "wires": [
+            [
+                "45ee843e.ec4bbc"
+            ]
+        ]
+    },
+    {
+        "id": "519579c5.dfaec8",
+        "type": "function",
+        "z": "mqtt-topic-filter",
+        "name": "",
+        "func": "var b = env.get(\"filter\") || '#';\nnode.status({text:b})\nmsg.payload = b;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 428,
+        "y": 144,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "45ee843e.ec4bbc",
+        "type": "switch",
+        "z": "mqtt-topic-filter",
+        "name": "",
+        "property": "status",
+        "propertyType": "env",
+        "rules": [
+            {
+                "t": "true"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 290,
+        "y": 160,
+        "wires": [
+            [
+                "519579c5.dfaec8"
+            ],
+            [
+                "4ce4687e.e359a8"
+            ]
+        ]
+    },
+    {
+        "id": "4ce4687e.e359a8",
+        "type": "function",
+        "z": "mqtt-topic-filter",
+        "name": "",
+        "func": "node.status({})\ndelete msg.payload;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 428,
+        "y": 192,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "43f88ebb.2944d8",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "b4b1f8bb.ed412",
+        "type": "mqtt in",
+        "z": "43f88ebb.2944d8",
+        "name": "mqtt in wxtest/app/#",
+        "topic": "wxtest/app/#",
+        "qos": "0",
+        "datatype": "auto",
+        "broker": "acda28df27d54322",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 110,
+        "y": 140,
+        "wires": [
+            [
+                "9ec00975d00dbb23",
+                "5cf72e8f524e5984",
+                "db61e50b0dd30b24"
+            ]
+        ]
+    },
+    {
+        "id": "e0bf113075785a07",
+        "type": "debug",
+        "z": "43f88ebb.2944d8",
+        "name": "StatusIdPayload",
+        "active": true,
+        "tosidebar": false,
+        "console": false,
+        "tostatus": true,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "payload",
+        "statusType": "msg",
+        "x": 560,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "9ec00975d00dbb23",
+        "type": "subflow:mqtt-topic-filter",
+        "z": "43f88ebb.2944d8",
+        "name": "state statusid",
+        "env": [
+            {
+                "name": "filter",
+                "value": "wxtest/app/state/statusid",
+                "type": "str"
+            }
+        ],
+        "x": 370,
+        "y": 60,
+        "wires": [
+            [
+                "e0bf113075785a07"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "5cf72e8f524e5984",
+        "type": "subflow:mqtt-topic-filter",
+        "z": "43f88ebb.2944d8",
+        "name": "state item",
+        "env": [
+            {
+                "name": "filter",
+                "value": "wxtest/app/state/item",
+                "type": "str"
+            }
+        ],
+        "x": 360,
+        "y": 140,
+        "wires": [
+            [
+                "feff55521de94fab"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "feff55521de94fab",
+        "type": "debug",
+        "z": "43f88ebb.2944d8",
+        "name": "ItemPayload",
+        "active": true,
+        "tosidebar": false,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 550,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "1c3fb33f7c7e6f5c",
+        "type": "mqtt out",
+        "z": "43f88ebb.2944d8",
+        "name": "mqtt wxtest app out control state statusid",
+        "topic": "wxtest/app/control/state/statusid",
+        "qos": "0",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "acda28df27d54322",
+        "x": 460,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "1f2108b25910816d",
+        "type": "inject",
+        "z": "43f88ebb.2944d8",
+        "name": "statusid 1",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "wxwidget/app/control/state/statusid",
+        "payload": "1",
+        "payloadType": "str",
+        "x": 100,
+        "y": 300,
+        "wires": [
+            [
+                "1c3fb33f7c7e6f5c"
+            ]
+        ]
+    },
+    {
+        "id": "50a945bdd96cd0ae",
+        "type": "inject",
+        "z": "43f88ebb.2944d8",
+        "name": "statusid 2",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "wxwidget/app/control/state/statusid",
+        "payload": "2",
+        "payloadType": "str",
+        "x": 100,
+        "y": 360,
+        "wires": [
+            [
+                "1c3fb33f7c7e6f5c"
+            ]
+        ]
+    },
+    {
+        "id": "416896365ceefd3c",
+        "type": "inject",
+        "z": "43f88ebb.2944d8",
+        "name": "statusid 3",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "wxwidget/app/control/state/statusid",
+        "payload": "3",
+        "payloadType": "str",
+        "x": 100,
+        "y": 420,
+        "wires": [
+            [
+                "1c3fb33f7c7e6f5c"
+            ]
+        ]
+    },
+    {
+        "id": "db61e50b0dd30b24",
+        "type": "subflow:mqtt-topic-filter",
+        "z": "43f88ebb.2944d8",
+        "name": "state reset",
+        "env": [
+            {
+                "name": "filter",
+                "value": "wxtest/app/state/reset",
+                "type": "str"
+            }
+        ],
+        "x": 370,
+        "y": 220,
+        "wires": [
+            [
+                "7f6bdb8c3eec1f39"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "7f6bdb8c3eec1f39",
+        "type": "debug",
+        "z": "43f88ebb.2944d8",
+        "name": "Reset",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 530,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "acda28df27d54322",
+        "type": "mqtt-broker",
+        "name": "Broker",
+        "broker": "192.168.3.60",
+        "port": "1883",
+        "clientid": "pierrehome",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "3",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    }
+]

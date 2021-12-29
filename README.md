@@ -21,7 +21,7 @@ App uses :
 * **wxFrame** inherited as single frame design.
 * **wxPanel** multiple panels used by **wxSplitter**.
 * **wxSplitter** & **wxSiser** for h/v auto layout adjustments.
-* **wxCommandEvent** subclassing for custom event design (MyFooEvent).
+* **wxCommandEvent** subclassing for custom event design (MyMqttEvent).
 * **wxListCtrl** for list management with XPM icons design.
 * **wxTimer** for timestamp management.
 * Most common widgets like wxMenuBar,wxMenu,wxStatusBar,wxButton,wxRadio,etc... 
@@ -81,6 +81,13 @@ In that way we keep loose coupling between mqtt and various controls, this also 
 ### Cppcheck 
 * C++ code checker.  
 * Hereby used with std c++11 but should be c++17.  
+
+## Fixtures
+
+In fixtures folder you can find 2 folders:
+
+* bash : to let you pubsub from bash (change config according to your infra).
+* node-red : to load node red script to pubsub according to wxtest topics (change mqtt setup according to your infra).
 
 ## Build
 

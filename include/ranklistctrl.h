@@ -7,6 +7,7 @@
 #include <wx/wx.h>
 #endif
 
+#include "mqtttopics.h"
 #include <wx/icon.h>
 #include <wx/imaglist.h>
 #include <wx/listctrl.h>
