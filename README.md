@@ -125,24 +125,66 @@ make check
 
 ### Win32
 
-#### Build app
-Install [mingw64 from MSYS2 with gcc/g++](https://www.youtube.com/watch?v=aXF4A5UeSeM) package using pacman.  
+#### Setup dev env
+
+Install [mingw64 from MSYS2 with gcc/g++](https://www.youtube.com/watch?v=aXF4A5UeSeM) package using pacman, by the way start a new pacman for mingw-make to get the mingw32-make command.  
+
+#### Setup wxwidget resources
 Download wxwidget prebuild ([Download Windows Binaries](https://www.wxwidgets.org/downloads/)) mathing your arch x86/x86_64 :
 * Header Files.
 * Development File.
 * Release DLLs.  
 
-Edit buildw32.cmd changing the base path.  
-Create a build folder at project root.  
+#### Setup mosquitto resources
+Clone sources from [mosquitto on github](https://github.com/eclipse/mosquitto).  
+Create a folder build inside the cloned repo.
+Install Cmake binary for windows.  
+Launch Cmake Gui, point to the mosquitto sources and choose the build target with your build folder.  
+Choose mingw as compiler when ask for.  
+Uncheck all checkbox checked as below (keep only 3 checked) :
+
+![log](doc/assets/img/CMake.png)
+
+Press buttons configure then generate.  
+Once done (without any errors, forget warnings), open a command prompt and go the mosq build folder and run command as below :
+
+```
+mingw32-make -f Makefile
+```
+
+This will build both required dlls (for runtime) and objects(for linking).  
+Copy dlls to your app build folder :
+
+* libmosquittop.dll
+* libmosquitto.dll
+
+At this time you should be ready to buid the app as below.  
+
+#### Build app
+
+Edit buildw32.cmd changing :
+
+* the base path for wxwidget.  
+* the base path for mosquitto.  
+
+Create a build folder on root project.  
 Then run the command below.  
 ```
 buildw32.cmd
 ```
-As non static built you should add 2 dlls to distribute the runtime :
+As non static built 4 dlls required for runtime :  
+
+you should add 2 wxwidget dlls to distribute the runtime :
+
 * wxbase315u_gcc1020_x64.dll
 * wxmsw315u_core_gcc1020_x64.dll
 
-Both of them should be found in your prebuild.
+Both of them should be found in your wxwidget prebuild.
+
+you should add 2 mosquitto dlls to distribute the runtime :
+
+* libmosquittop.dll
+* libmosquitto.dll
 
 ## Test
 
