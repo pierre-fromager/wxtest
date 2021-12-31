@@ -7,7 +7,7 @@
 #include <wx/wx.h>
 #endif
 
-#include "mqtttopics.h"
+#include "fooevent.h"
 #include "frame_icon_xpm.h"
 #include <wx/splitter.h>
 #include <wx/datetime.h>
@@ -32,8 +32,6 @@ class AppFrame : public wxFrame
 {
 public:
     AppFrame();
-    myMqtt *GetMqtt();
-    FileLogger *GetLogger();
 
 private:
     // ctrl ids
@@ -57,11 +55,13 @@ private:
     wxBoxSizer *hboxRight = nullptr;
     // buttons
     wxButton *buttonAdd = nullptr;
+    wxButton *fooButton  = nullptr;
     // menus
     wxMenu *menuFile = nullptr;
     wxMenu *menuHelp = nullptr;
     wxMenuBar *menuBar = nullptr;
     // timer
+    //wxTimer *timer = nullptr;
     TimestampCtrl *timestampCtrl = nullptr;
     wxString timestamp = "        ";
     // radios
@@ -77,27 +77,30 @@ private:
     // internals
     int statusId = 1;
     // voids
+    FileLogger *GetLogger();
     void initMenus();
     void initMenuFile();
     void initMenuHelp();
     void initStatusBar();
     void initPanels();
     void initButtonAdd();
+    void initButtonGenFoo();
     void initSizers();
     void initRadiosStatus();
     void initListview();
     void bindMenuEvents();
     void initTimer();
     void bindTimer();
-    void bindMqttEvents();
+    void bindFooEvents();
     void OnReset(wxCommandEvent &event);
     void OnExit(wxCommandEvent &event);
     void OnAbout(wxCommandEvent &event);
     void OnButtonAdd(wxCommandEvent &event);
+    void OnButtonFoo(wxCommandEvent &event);
+    void OnFooEvent(MyFooEvent &ev);
     void OnTimer(wxTimerEvent &evt);
     void OnItemSelect(wxListEvent &event);
     void OnStatusChange(wxCommandEvent &event);
-    void OnMqttEvent(MyMqttEvent &ev);    
 };
 
 #endif

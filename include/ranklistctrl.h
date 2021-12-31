@@ -7,18 +7,15 @@
 #include <wx/wx.h>
 #endif
 
-#include "mqtttopics.h"
 #include <wx/icon.h>
 #include <wx/imaglist.h>
 #include <wx/listctrl.h>
 #include <vector>
-#include <app.h>
 #include "listarrows_xpm.h"
 
 #define RANK_COL_LABEL_INDEX "Index"
 #define RANK_COL_LABEL_TIMESTAMP "Timestamp"
 #define RANK_COL_LABEL_STATUS "Status"
-#define RANK_MQTT_TOPIC_PUBLISH_ITEM "wxwidget/app/state/item"
 
 struct RankItem
 {

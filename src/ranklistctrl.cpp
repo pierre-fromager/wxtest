@@ -6,7 +6,7 @@ RankListCtrl::RankListCtrl(wxWindow *parent) : wxListCtrl(
                                                    wxID_ANY,
                                                    wxDefaultPosition,
                                                    wxDefaultSize,
-                                                   wxLC_REPORT | wxLC_SORT_ASCENDING | wxLC_SORT_DESCENDING)
+                                                   wxLC_REPORT | wxLC_SORT_ASCENDING)
 {
     m_imageList = new wxImageList(16, 16, true);
     m_imageList->Add(wxBitmap(sort_null_xpm));
@@ -35,10 +35,6 @@ void RankListCtrl::AddRank(RankItem r)
     SetItem(result, Column_Status, r.status);
     SetItemData(result, (long)rankIndex);
     m_ranks.push_back(r);
-    wxGetApp().GetMqtt()->setPublishTopic(MQTT_TOPIC_PUBLISH_ITEM);
-    const wxString &pubitem = r.index + ";" + r.timestamp + ";" + r.status;
-    const std::string mqttPayload = std::string(pubitem.mb_str());
-    wxGetApp().GetMqtt()->publish(mqttPayload);
     rankIndex++;
 }
 
