@@ -317,8 +317,8 @@
         "id": "1c3fb33f7c7e6f5c",
         "type": "mqtt out",
         "z": "43f88ebb.2944d8",
-        "name": "mqtt wxtest app out control state statusid",
-        "topic": "wxtest/app/control/state/statusid",
+        "name": "mqtt wxtest control state",
+        "topic": "",
         "qos": "0",
         "retain": "false",
         "respTopic": "",
@@ -327,15 +327,15 @@
         "correl": "",
         "expiry": "",
         "broker": "acda28df27d54322",
-        "x": 460,
-        "y": 360,
+        "x": 410,
+        "y": 420,
         "wires": []
     },
     {
         "id": "1f2108b25910816d",
         "type": "inject",
         "z": "43f88ebb.2944d8",
-        "name": "statusid 1",
+        "name": "Bad",
         "props": [
             {
                 "p": "payload"
@@ -349,10 +349,10 @@
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
-        "topic": "wxwidget/app/control/state/statusid",
+        "topic": "wxtest/app/control/state/statusid",
         "payload": "1",
         "payloadType": "str",
-        "x": 100,
+        "x": 90,
         "y": 300,
         "wires": [
             [
@@ -364,7 +364,7 @@
         "id": "50a945bdd96cd0ae",
         "type": "inject",
         "z": "43f88ebb.2944d8",
-        "name": "statusid 2",
+        "name": "Medium",
         "props": [
             {
                 "p": "payload"
@@ -378,10 +378,10 @@
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
-        "topic": "wxwidget/app/control/state/statusid",
+        "topic": "wxtest/app/control/state/statusid",
         "payload": "2",
         "payloadType": "str",
-        "x": 100,
+        "x": 90,
         "y": 360,
         "wires": [
             [
@@ -393,7 +393,7 @@
         "id": "416896365ceefd3c",
         "type": "inject",
         "z": "43f88ebb.2944d8",
-        "name": "statusid 3",
+        "name": "Good",
         "props": [
             {
                 "p": "payload"
@@ -407,10 +407,10 @@
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
-        "topic": "wxwidget/app/control/state/statusid",
+        "topic": "wxtest/app/control/state/statusid",
         "payload": "3",
         "payloadType": "str",
-        "x": 100,
+        "x": 90,
         "y": 420,
         "wires": [
             [
@@ -455,6 +455,64 @@
         "x": 530,
         "y": 220,
         "wires": []
+    },
+    {
+        "id": "751f880e77e5944a",
+        "type": "inject",
+        "z": "43f88ebb.2944d8",
+        "name": "Reset",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "wxtest/app/control/state/reset",
+        "payload": "1",
+        "payloadType": "str",
+        "x": 90,
+        "y": 480,
+        "wires": [
+            [
+                "1c3fb33f7c7e6f5c"
+            ]
+        ]
+    },
+    {
+        "id": "904f606b8c1beb5b",
+        "type": "inject",
+        "z": "43f88ebb.2944d8",
+        "name": "Add",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "wxtest/app/control/state/add",
+        "payload": "1",
+        "payloadType": "str",
+        "x": 90,
+        "y": 540,
+        "wires": [
+            [
+                "1c3fb33f7c7e6f5c"
+            ]
+        ]
     },
     {
         "id": "acda28df27d54322",

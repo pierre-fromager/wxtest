@@ -2,7 +2,7 @@ CXX			= g++
 CXXFLAGS	= -g -Werror -Wall -Wextra -Wpedantic -std=c++17 -I./include \
 	-Wno-unused-function -Wno-unused-parameter -Wno-unused-variable
 LDFLAGS		= -g -s
-LDLIBS		= -lm
+LDLIBS		= -lm -lmosquittopp
 
 CXXFLAGS += $(shell wx-config --cxxflags)
 LDFLAGS  += $(shell wx-config --libs std)
