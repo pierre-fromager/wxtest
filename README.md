@@ -60,36 +60,59 @@ sudo apt-get install libwxbase3.0-dev libwxgtk-media3.0-dev libwxgtk3.0-dev
 
 ## Build
 
-### Build app
+### Linux
+
+#### Build app
 
 ```
 make
 ```
 
-### Clean build
+#### Clean build
 
 ```
 make clean
 ```
 
-### Build doc
+#### Build doc
 
 ```
 make doc
 ```
 Doc will be generated in doc/html folder.
 
-### Clean doc
+#### Clean doc
 
 ```
 make cleandoc
 ```
 
-## Code check
+#### Code check
 
 ```
 make check
 ```
+
+### Win32
+
+#### Build app
+Install [mingw64 from MSYS2 with gcc/g++](https://www.youtube.com/watch?v=aXF4A5UeSeM) package using pacman.  
+Download wxwidget prebuild ([Download Windows Binaries](https://www.wxwidgets.org/downloads/)) mathing your arch x86/x86_64 :
+* Header Files.
+* Development File.
+* Release DLLs.  
+
+Edit buildw32.cmd changing the base path.  
+Create a build folder at project root.  
+Then run the command below.  
+```
+buildw32.cmd
+```
+As non static built you should add 2 dlls to distribute the runtime :
+* wxbase315u_gcc1020_x64.dll
+* wxmsw315u_core_gcc1020_x64.dll
+
+Both of them should be found in your prebuild.
 
 ## Test
 

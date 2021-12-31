@@ -6,7 +6,7 @@ RankListCtrl::RankListCtrl(wxWindow *parent) : wxListCtrl(
                                                    wxID_ANY,
                                                    wxDefaultPosition,
                                                    wxDefaultSize,
-                                                   wxLC_REPORT | wxLC_SORT_ASCENDING | wxLC_SORT_DESCENDING)
+                                                   wxLC_REPORT | wxLC_SORT_ASCENDING)
 {
     m_imageList = new wxImageList(16, 16, true);
     m_imageList->Add(wxBitmap(sort_null_xpm));
