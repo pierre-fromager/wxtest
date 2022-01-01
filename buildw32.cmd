@@ -1,6 +1,6 @@
 ::@TESTED
-:: * w10 
-:: * gcc version 11.2.0 (Rev5, Built by MSYS2 project)
+:: * os  10.0.19044 Build 19044  
+:: * gcc 11.2.0 (Rev5, Built by MSYS2 project)
 ::@TODO 
 :: * check why mingw64 g++ fail on sanitize options -lasan -lubsan 
 :: * fix some ugly conversions in code -Wconversion 
@@ -25,7 +25,7 @@
 @SET WX_MSWUD="%WX_BASE_PATH%%WX_DLL_DEV%\mswud"
 @SET WX_DLL_PATH="%WX_BASE_PATH%%WX_DLL_DEV%"
 @SET CPPFLAGS=-O2 -Werror -Wall -Wextra -Wpedantic -std=c++17 ^
-	-mwindows -g -s -lm ^
+	-mwindows -v -g -s -lm ^
 	-Wno-unused-function -Wno-unused-parameter -Wno-unused-variable ^
 	-Wno-format-nonliteral ^
 	-Wformat=2 -Wformat-security ^
@@ -45,15 +45,15 @@
 ::@BUILD
 @ECHO ___ Build start ___
 @ECHO + Windows env
-@ECHO	- user : %WUSER%
-@ECHO	- home : %WHOME%
-@ECHO	- download : %WHOME_DOWNLOAD%
+@ECHO	- user		: %WUSER%
+@ECHO	- home		: %WHOME%
+@ECHO	- download	: %WHOME_DOWNLOAD%
 @ECHO + Headers
-@ECHO	- wxwidget : %WX_HEADERS_INC%
-@ECHO	- mosquitto : %MOSQ_LIB%
+@ECHO	- wxwidget	: %WX_HEADERS_INC%
+@ECHO	- mosquitto	: %MOSQ_LIB%
 @ECHO + Libs
-@ECHO	- wxwidget : %WX_DLL_PATH%
-@ECHO	- mosquitto : %MOSQ_BUILD_LIB_CPP%
+@ECHO	- wxwidget	: %WX_DLL_PATH%
+@ECHO	- mosquitto	: %MOSQ_BUILD_LIB_CPP%
 @g++ %CPP_FILES% ^
     %CPPFLAGS% ^
     -o %BUILD_OUPUT% ^
