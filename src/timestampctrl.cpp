@@ -33,7 +33,7 @@ TimestampCtrl::TimestampCtrl(wxWindow *parent) : wxPanel(
 
 TimestampCtrl::~TimestampCtrl()
 {
-    delete m_text;
+    wxDELETE(m_text);
 }
 
 void TimestampCtrl::SetText(const wxString &text)

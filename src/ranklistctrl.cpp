@@ -24,7 +24,7 @@ RankListCtrl::RankListCtrl(wxWindow *parent) : wxListCtrl(
 
 RankListCtrl::~RankListCtrl()
 {
-    delete m_imageList;
+    wxDELETE(m_imageList);
 }
 
 void RankListCtrl::AddRank(RankItem r)

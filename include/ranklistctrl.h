@@ -20,6 +20,10 @@
 #define RANK_COL_LABEL_STATUS "Status"
 #define RANK_MQTT_TOPIC_PUBLISH_ITEM "wxwidget/app/state/item"
 
+/**
+ * @brief Rank item structure
+ *
+ */
 struct RankItem
 {
     wxString index;
@@ -27,12 +31,20 @@ struct RankItem
     wxString status;
 };
 
+/**
+ * @brief Rank item list
+ *
+ */
 typedef std::vector<RankItem> RankList;
 
+/**
+ * @brief Rank list control
+ *
+ */
 class RankListCtrl : public wxListCtrl
 {
 public:
-    RankListCtrl(wxWindow *parent);
+    explicit RankListCtrl(wxWindow *parent);
     virtual ~RankListCtrl();
     void AddRank(RankItem rank);
     int GetRankId(wxIntPtr index);

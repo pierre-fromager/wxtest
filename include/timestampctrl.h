@@ -21,11 +21,15 @@
 
 #define TSCTRL_TIMER_DELTA 1000
 
+/**
+ * @brief Timestamp timer control
+ *
+ */
 class TimestampCtrl : public wxPanel
 {
 
 public:
-    TimestampCtrl(wxWindow *parent);
+    explicit TimestampCtrl(wxWindow *parent);
     virtual ~TimestampCtrl();
     void SetText(const wxString &text);
     void SetTimerId(const wxWindowID &id);

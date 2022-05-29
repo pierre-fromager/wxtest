@@ -33,7 +33,8 @@ App uses :
 
 ### wxWidget
 wWidget dev library (3.0) and above.
-* Check installed version on debian.
+### Debian 9 wxWidget 3.0 Gtk2
+* Check installed version on debian (stretch with Gtk2).
 
 ```
 dpkg -l | grep 'wxWidget' | grep dev
@@ -50,6 +51,32 @@ apt-cache search 'wxWidget' | grep dev
 ```
 sudo apt-get install libwxbase3.0-dev libwxgtk-media3.0-dev libwxgtk3.0-dev  
 ```
+
+### Debian 11 wxWidget 3.1.5 Gtk3
+
+After migrating from stretch to bullseye compilation worked but link failed.  
+To fix this issue :
+* Download sources [wxWidget 3.1.5](https://www.wxwidgets.org/downloads/).
+* Follow [setup instructions](https://www.binarytides.com/install-wxwidgets-ubuntu/).
+* Before checkinstall run :
+```
+sudo mkdir -p /usr/local/lib/wx \
+	/usr/local/lib/wx/include \
+	/usr/local/share/bakefile \
+	/usr/local/lib/wx/include/gtk3-unicode-3.1
+```
+
+
+#### Check verify
+Go to [HelloWorldExample](https://docs.wxwidgets.org/3.0/overview_helloworld.html),copy paste in a main.cpp file the full code exmaple then run :
+```
+g++ main.cpp -o prog `wx-config --cppflags` `wx-config --libs`
+```
+Build should be done without errors then run :
+```
+./prog
+```
+This should start HelloWorld App.
 
 ### Mqtt
 
@@ -94,9 +121,43 @@ In fixtures folder you can find 2 folders:
 
 #### Build app
 
+with wxWidget 2.0 gtk2.  
 ```
-make
+make all
 ```
+
+with wxWidget 3.1.5 gtk3, require gcc >= 10 .
+```
+make -f Makefile.315 all
+```
+
+#### Debug
+
+Dependecies list
+```
+ldd ./wxTest
+```
+
+Memory leaks check valgrind
+```
+valgrind --leak-check=full ./wxTest
+```
+
+For now i can see error from the sanitizer
+```
+==2181884==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 43008 byte(s) in 168 object(s) allocated from:
+    #0 0x7f4ef269fe8f in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x7f4eeface704  (/usr/lib/x86_64-linux-gnu/libfontconfig.so.1+0x20704)
+
+Direct leak of 10240 byte(s) in 16 object(s) allocated from:
+    #0 0x7f4ef26a01f8 in __interceptor_realloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:164
+    #1 0x7f4eeface7b0  (/usr/lib/x86_64-linux-gnu/libfontconfig.so.1+0x207b0)
+...
+```
+But it's not my bad, just an issue with libfontconfig & cairo.  
+Check [there](https://github.com/wxWidgets/wxWidgets/blob/master/misc/suppressions/lsan) to set asan options in order to see well known mem leaks.
 
 #### Clean build
 
@@ -185,6 +246,17 @@ you should add 2 mosquitto dlls to distribute the runtime :
 
 * libmosquittop.dll
 * libmosquitto.dll
+
+## Licence
+
+### Common
+* GPLv3.
+* Feel free to modify app source and distribute binaries.
+
+### To not infringe GPLv3
+
+* build should be dynamic (no static).
+* libs or dependencies used for your release should be externals.
 
 ## Test
 

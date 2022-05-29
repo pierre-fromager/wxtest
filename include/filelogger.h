@@ -11,6 +11,10 @@
 
 typedef unsigned long logger_level_t;
 
+/**
+ * @brief Logger manager
+ *
+ */
 class FileLogger
 {
 public:
@@ -28,7 +32,7 @@ public:
         User,
         Max
     };
-    FileLogger(const char *filename);
+    explicit FileLogger(const char *filename);
     virtual ~FileLogger();
     void SetLevel(logger_level_t level);
     void Debug(const char *format, ...);

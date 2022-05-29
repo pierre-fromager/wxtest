@@ -9,17 +9,21 @@
 #include <wx/wx.h>
 #endif
 
+/**
+ * @brief Mqtt event manager
+ *
+ */
 class MyMqttEvent : public wxCommandEvent
 {
 
 public:
     MyMqttEvent(wxEventType evType, int id);
     MyMqttEvent(const MyMqttEvent &ev);
-    virtual wxEvent *Clone() const override;
+    virtual wxEvent *Clone(void) const override;
     void SetTopic(const std::string &topic);
     void SetPayload(const std::string &payload);
-    std::string GetTopic() const;
-    std::string GetPayload() const;
+    std::string GetTopic(void) const;
+    std::string GetPayload(void) const;
 
 private:
     std::string m_topic;

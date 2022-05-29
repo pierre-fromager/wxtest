@@ -13,7 +13,7 @@ MyMqttEvent::MyMqttEvent(const MyMqttEvent &ev) : wxCommandEvent(ev)
     this->SetPayload(ev.GetPayload());
 }
 
-wxEvent *MyMqttEvent::Clone() const
+wxEvent *MyMqttEvent::Clone(void) const
 {
     return new MyMqttEvent(*this);
 }
@@ -28,12 +28,12 @@ void MyMqttEvent::SetPayload(const std::string &payload)
     m_payload = payload;
 }
 
-std::string MyMqttEvent::GetTopic() const
+std::string MyMqttEvent::GetTopic(void) const
 {
     return m_topic;
 }
 
-std::string MyMqttEvent::GetPayload() const
+std::string MyMqttEvent::GetPayload(void) const
 {
     return m_payload;
 }
